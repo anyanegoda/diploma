@@ -1,0 +1,32 @@
+<%= form_with(model: organizational_and_methodical_work, local: true) do |form| %>
+  <% if organizational_and_methodical_work.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(organizational_and_methodical_work.errors.count, "error") %> prohibited this organizational_and_methodical_work from being saved:</h2>
+
+      <ul>
+      <% organizational_and_methodical_work.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :work_name %>
+    <%= form.text_field :work_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :time_rate %>
+    <%= form.text_field :time_rate %>
+  </div>
+
+  <div class="field">
+    <%= form.label :note %>
+    <%= form.text_field :note %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+module EducationalAndMethodicalWorksHelper
+end

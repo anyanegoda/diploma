@@ -1,0 +1,2 @@
+class OrganizationalAndMethodicalWork < ApplicationRecord
+end

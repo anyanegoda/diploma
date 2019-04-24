@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Organizational And Methodical Works</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Наименование </th>
+      <th>Норма времени в часах</th>
+      <th>Примечание</th>
+      <th>Количество</th>
+      <th>Итого</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @organizational_and_methodical_works.each do |organizational_and_methodical_work| %>
+      <tr>
+        <td><%= organizational_and_methodical_work.work_name %></td>
+        <td><%= organizational_and_methodical_work.time_rate %></td>
+        <td><%= organizational_and_methodical_work.note %></td>
+        <td><input id="quantity-om" class="quantity-om" name="quantity-om" type="number" min="0" data-time="<%= organizational_and_methodical_work.time_rate %>" data-name-input="<%= organizational_and_methodical_work.work_name %>"/></td>
+        <td><p class="new-quantity-om"></p></td>
+        <td><%= link_to 'Show', organizational_and_methodical_work %></td>
+        <td><%= link_to 'Edit', edit_organizational_and_methodical_work_path(organizational_and_methodical_work) %></td>
+        <td><%= link_to 'Destroy', organizational_and_methodical_work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= button_tag "Save", class: "add-quantity-om" %>
+<br>
+
+<%= link_to 'New Organizational And Methodical Work', new_organizational_and_methodical_work_path %>
