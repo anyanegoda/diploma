@@ -1,0 +1,136 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Works</h1>
+
+<div class="tab">
+  <button class="tablinks" onclick="openWork(event, 'work-em')">УЧЕБНО-МЕТОДИЧЕСКАЯ РАБОТА</button>
+  <button class="tablinks" onclick="openWork(event, 'work-r')">НАУЧНО-ИССЛЕДОВАТЕЛЬСКАЯ РАБОТА</button>
+  <button class="tablinks" onclick="openWork(event, 'work-om')">ОРГАНИЗАЦИОННО-МЕТОДИЧЕСКАЯ РАБОТА</button>
+  <button class="tablinks" onclick="openWork(event, 'work-e')">ВОСПИТАТЕЛЬНАЯ РАБОТА</button>
+</div>
+
+<div id="work-em" class="tabcontent">
+  <table>
+    <thead>
+      <tr>
+        <th>Work title</th>
+        <th>Time rate</th>
+        <th>Note</th>
+        <th>Вид работы</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @works.each do |work| %>
+        <% if work.name_work_id == 1 %>
+          <tr>
+            <td><%= work.work_title %></td>
+            <td><%= work.time_rate %></td>
+            <td><%= work.note %></td>
+            <td><%= NameWork.find(work.name_work_id).name %></td>
+            <td><%= link_to 'Show', work %></td>
+            <td><%= link_to 'Edit', edit_work_path(work) %></td>
+            <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div id="work-r" class="tabcontent">
+  <table>
+    <thead>
+      <tr>
+        <th>Work title</th>
+        <th>Time rate</th>
+        <th>Note</th>
+        <th>Вид работы</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @works.each do |work| %>
+        <% if work.name_work_id == 2 %>
+          <tr>
+            <td><%= work.work_title %></td>
+            <td><%= work.time_rate %></td>
+            <td><%= work.note %></td>
+            <td><%= NameWork.find(work.name_work_id).name %></td>
+            <td><%= link_to 'Show', work %></td>
+            <td><%= link_to 'Edit', edit_work_path(work) %></td>
+            <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div id="work-om" class="tabcontent">
+  <table>
+    <thead>
+      <tr>
+        <th>Work title</th>
+        <th>Time rate</th>
+        <th>Note</th>
+        <th>Вид работы</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @works.each do |work| %>
+        <% if work.name_work_id == 3 %>
+          <tr>
+            <td><%= work.work_title %></td>
+            <td><%= work.time_rate %></td>
+            <td><%= work.note %></td>
+            <td><%= NameWork.find(work.name_work_id).name %></td>
+            <td><%= link_to 'Show', work %></td>
+            <td><%= link_to 'Edit', edit_work_path(work) %></td>
+            <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div id="work-e" class="tabcontent">
+  <table>
+    <thead>
+      <tr>
+        <th>Work title</th>
+        <th>Time rate</th>
+        <th>Note</th>
+        <th>Вид работы</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @works.each do |work| %>
+        <% if work.name_work_id == 4 %>
+          <tr>
+            <td><%= work.work_title %></td>
+            <td><%= work.time_rate %></td>
+            <td><%= work.note %></td>
+            <td><%= NameWork.find(work.name_work_id).name %></td>
+            <td><%= link_to 'Show', work %></td>
+            <td><%= link_to 'Edit', edit_work_path(work) %></td>
+            <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+
+<br>
+
+<%= link_to 'New Work', new_work_path %>

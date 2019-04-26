@@ -38,10 +38,10 @@ class SubjectsController < ApplicationController
 
   def insert_to_bd
     # @xls = Roo::Spreadsheet.open('./main.xls', {:expand_merged_ranges => true})
-    current_user.files_excels.each do |file|
-      @xls = Roo::Spreadsheet.open(file.input_file, {:expand_merged_ranges => true})
-    end
-    # @xls = Roo::Spreadsheet.open(current_user.files_excels.first.input_file, {:expand_merged_ranges => true})
+    # current_user.files_excels.each do |file|
+    #   @xls = Roo::Spreadsheet.open(file.input_file, {:expand_merged_ranges => true})
+    # end
+    @xls = Roo::Spreadsheet.open(current_user.files_excels.last.input_file, {:expand_merged_ranges => true})
 
     last_row = @xls.sheet(0).last_row
     last_column = @xls.sheet(0).last_column

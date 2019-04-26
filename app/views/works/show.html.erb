@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Work title:</strong>
+  <%= @work.work_title %>
+</p>
+
+<p>
+  <strong>Time rate:</strong>
+  <%= @work.time_rate %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @work.note %>
+</p>
+
+<p>
+  <strong>Вид работы:</strong>
+  <%= NameWork.find(@work.name_work_id).name %>
+</p>
+
+<%= link_to 'Edit', edit_work_path(@work) %> |
+<%= link_to 'Back', works_path %> |
+<%= link_to 'New Work', new_work_path %>

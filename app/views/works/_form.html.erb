@@ -1,0 +1,45 @@
+<%= form_with(model: work, local: true) do |form| %>
+  <% if work.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(work.errors.count, "error") %> prohibited this work from being saved:</h2>
+
+      <ul>
+      <% work.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :work_title %>
+    <%= form.text_field :work_title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :time_rate %>
+    <%= form.text_field :time_rate %>
+  </div>
+
+  <div class="field">
+    <%= form.label :note %>
+    <%= form.text_field :note %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name_work_id %>
+    <select name="names" id="select-names" class="selected-name">
+      <%= @name_works = NameWork.all %>
+      <%= @name_works.each do |name_work| %>
+        <option selected disabled hidden>Выберите</option>
+        <option value="<%= name_work.id %>" data-id="<%= name_work.id %>"><%= name_work.name %></option>
+      <% end %>
+    </select>
+
+    <%= form.hidden_field :name_work_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

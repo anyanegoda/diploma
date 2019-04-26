@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :works
+  resources :name_works
   resources :educational_works
   resources :research_works
   resources :organizational_and_methodical_works
