@@ -5,22 +5,10 @@ $(document).on 'turbolinks:load', ->
   $('#select-names').change ->
     name_id = $('#select-names :selected').val()
     $('#work_name_work_id').val(name_id)
-    debugger
 
-  openWork = (evt, workName) ->
-    i = undefined
-    tabcontent = undefined
-    tablinks = undefined
-    tabcontent = document.getElementsByClassName('tabcontent')
-    i = 0
-    while i < tabcontent.length
-      tabcontent[i].style.display = 'none'
-      i++
-    tablinks = document.getElementsByClassName('tablinks')
-    i = 0
-    while i < tablinks.length
-      tablinks[i].className = tablinks[i].className.replace(' active', '')
-      i++
-    document.getElementById(workName).style.display = 'block'
-    evt.currentTarget.className += ' active'
-    return
+  $('.tablinks').on 'click', ->
+    workType = $(this).data('work-type')
+    $('.tablinks').removeClass('active')
+    $(this).addClass('active')
+    $('.tabcontent').hide()
+    $("#"+workType+"").fadeIn()
