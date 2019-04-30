@@ -1,5 +1,10 @@
 <p id="notice"><%= notice %></p>
 
+<div id="error">
+  <span class="error-text"></span>
+  <span class="error-close">&#10005;</span>
+</div>
+
 <h1>Works</h1>
 
 <div class="tab">
@@ -13,10 +18,12 @@
   <table>
     <thead>
       <tr>
-        <th>Work title</th>
-        <th>Time rate</th>
-        <th>Note</th>
+        <th>Наименование </th>
+        <th>Норма времени в часах</th>
+        <th>Примечание</th>
         <th>Вид работы</th>
+        <th>Количество</th>
+        <th>Итого</th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -29,6 +36,8 @@
             <td><%= work.time_rate %></td>
             <td><%= work.note %></td>
             <td><%= NameWork.find(work.name_work_id).name %></td>
+            <td><input id="quantity-em" class="quantity-em" name="quantity-em" type="number" min="0" data-time="<%= work.time_rate %>" data-name-input="<%= work.work_title %>"/></td>
+            <td><p class="new-quantity-em"></p></td>
             <td><%= link_to 'Show', work %></td>
             <td><%= link_to 'Edit', edit_work_path(work) %></td>
             <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -37,16 +46,19 @@
       <% end %>
     </tbody>
   </table>
+  <%= button_tag "Сохранить изменения", class: "add-quantity-em" %>
 </div>
 
 <div id="work-r" class="tabcontent">
   <table>
     <thead>
       <tr>
-        <th>Work title</th>
-        <th>Time rate</th>
-        <th>Note</th>
+        <th>Наименование </th>
+        <th>Норма времени в часах</th>
+        <th>Примечание</th>
         <th>Вид работы</th>
+        <th>Количество</th>
+        <th>Итого</th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -59,6 +71,8 @@
             <td><%= work.time_rate %></td>
             <td><%= work.note %></td>
             <td><%= NameWork.find(work.name_work_id).name %></td>
+            <td><input id="quantity-r" class="quantity-r" name="quantity-r" type="number" min="0" data-time="<%= work.time_rate %>" data-name-input="<%= work.work_title %>"/></td>
+            <td><p class="new-quantity-r"></p></td>
             <td><%= link_to 'Show', work %></td>
             <td><%= link_to 'Edit', edit_work_path(work) %></td>
             <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -67,16 +81,19 @@
       <% end %>
     </tbody>
   </table>
+  <%= button_tag "Сохранить изменения", class: "add-quantity-r" %>
 </div>
 
 <div id="work-om" class="tabcontent">
   <table>
     <thead>
       <tr>
-        <th>Work title</th>
-        <th>Time rate</th>
-        <th>Note</th>
+        <th>Наименование </th>
+        <th>Норма времени в часах</th>
+        <th>Примечание</th>
         <th>Вид работы</th>
+        <th>Количество</th>
+        <th>Итого</th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -89,6 +106,8 @@
             <td><%= work.time_rate %></td>
             <td><%= work.note %></td>
             <td><%= NameWork.find(work.name_work_id).name %></td>
+            <td><input id="quantity-om" class="quantity-om" name="quantity-om" type="number" min="0" data-time="<%= work.time_rate %>" data-name-input="<%= work.work_title %>"/></td>
+            <td><p class="new-quantity-om"></p></td>
             <td><%= link_to 'Show', work %></td>
             <td><%= link_to 'Edit', edit_work_path(work) %></td>
             <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -97,16 +116,19 @@
       <% end %>
     </tbody>
   </table>
+  <%= button_tag "Сохранить изменения", class: "add-quantity-om" %>
 </div>
 
 <div id="work-e" class="tabcontent">
   <table>
     <thead>
       <tr>
-        <th>Work title</th>
-        <th>Time rate</th>
-        <th>Note</th>
+        <th>Наименование </th>
+        <th>Норма времени в часах</th>
+        <th>Примечание</th>
         <th>Вид работы</th>
+        <th>Количество</th>
+        <th>Итого</th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -119,6 +141,8 @@
             <td><%= work.time_rate %></td>
             <td><%= work.note %></td>
             <td><%= NameWork.find(work.name_work_id).name %></td>
+            <td><input id="quantity-e" class="quantity-e" name="quantity-e" type="number" min="0" data-time="<%= work.time_rate %>" data-name-input="<%= work.work_title %>"/></td>
+            <td><p class="new-quantity-e"></p></td>
             <td><%= link_to 'Show', work %></td>
             <td><%= link_to 'Edit', edit_work_path(work) %></td>
             <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -127,6 +151,7 @@
       <% end %>
     </tbody>
   </table>
+  <%= button_tag "Сохранить изменения", class: "add-quantity-e" %>
 </div>
 
 

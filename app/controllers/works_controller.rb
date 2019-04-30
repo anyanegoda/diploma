@@ -3,6 +3,33 @@ class WorksController < ApplicationController
 
   respond_to :html
 
+  def add_educational_and_methodical_work
+    @temp = User.find(current_user.id)
+    # @quantity_hash = params[:quantity_hash]
+    # @quantity_hash.permit(:c)
+    # binding.pry
+    @temp.educational_and_methodical_works = params[:quantity_hash_em].to_unsafe_h
+    @temp.save
+  end
+
+  def add_research_work
+    @temp = User.find(current_user.id)
+    @temp.research_works = params[:quantity_hash_r].to_unsafe_h
+    @temp.save
+  end
+
+  def add_organizational_and_methodical_work
+    @temp = User.find(current_user.id)
+    @temp.organizational_and_methodical_works = params[:quantity_hash_om].to_unsafe_h
+    @temp.save
+  end
+
+  def add_educational_work
+    @temp = User.find(current_user.id)
+    @temp.educational_works = params[:quantity_hash_e].to_unsafe_h
+    @temp.save
+  end
+
   def index
     @works = Work.all
     respond_with(@works)

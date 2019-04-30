@@ -1,10 +1,6 @@
 Rails.application.routes.draw do
   resources :works
   resources :name_works
-  resources :educational_works
-  resources :research_works
-  resources :organizational_and_methodical_works
-  resources :educational_and_methodical_works
   get 'subjects/index'
   resources :subjects#, except: ['index','new']
   #   resources :user do
@@ -20,10 +16,10 @@ Rails.application.routes.draw do
   post '/destroy_all_subjects', to: 'subjects#destroy_all_subjects', as: :destroy_all_subjects
   post '/destroy_all_output_files', to: 'subjects#destroy_all_output_files', as: :destroy_all_output_files
   post '/save_input_file', to: 'subjects#save_input_file', as: :save_input_file
-  post '/add_educational_and_methodical_work', to: 'educational_and_methodical_works#add_educational_and_methodical_work', as: :add_educational_and_methodical_work
-  post '/add_educational_work', to: 'educational_works#add_educational_work', as: :add_educational_work
-  post '/add_research_work', to: 'research_works#add_research_work', as: :add_research_work
-  post '/add_organizational_and_methodical_work', to: 'organizational_and_methodical_works#add_organizational_and_methodical_work', as: :add_organizational_and_methodical_work
+  post '/add_educational_and_methodical_work', to: 'works#add_educational_and_methodical_work', as: :add_educational_and_methodical_work
+  post '/add_educational_work', to: 'works#add_educational_work', as: :add_educational_work
+  post '/add_research_work', to: 'works#add_research_work', as: :add_research_work
+  post '/add_organizational_and_methodical_work', to: 'works#add_organizational_and_methodical_work', as: :add_organizational_and_methodical_work
 
 
 

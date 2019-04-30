@@ -6,7 +6,8 @@
   position: fixed;
   bottom: -150%;
   left: 0;
-  width: 100vw;
+  width: 50vw;
+  height: 10vh;
   background-color: #cd5b45;
   border-radius: 5px;
   border: 1px solid #8b0000;
@@ -21,5 +22,5 @@
 }
 
 #error.visible {
-  bottom: 0;
+  bottom: 50%;
 }

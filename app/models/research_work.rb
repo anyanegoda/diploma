@@ -1,2 +1,0 @@
-class ResearchWork < ApplicationRecord
-end

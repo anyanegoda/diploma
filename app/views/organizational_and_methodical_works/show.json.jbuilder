@@ -1,1 +1,0 @@
-json.partial! "organizational_and_methodical_works/organizational_and_methodical_work", organizational_and_methodical_work: @organizational_and_methodical_work

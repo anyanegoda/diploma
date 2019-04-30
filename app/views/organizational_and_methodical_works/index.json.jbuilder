@@ -1,1 +1,0 @@
-json.array! @organizational_and_methodical_works, partial: 'organizational_and_methodical_works/organizational_and_methodical_work', as: :organizational_and_methodical_work

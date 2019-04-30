@@ -36,3 +36,28 @@
   border: 1px solid #ccc;
   border-top: none;
 }
+
+#error {
+  z-index: 999;
+  position: fixed;
+  bottom: -150%;
+  left: 0;
+  width: 50vw;
+  height: 10vh;
+  background-color: #cd5b45;
+  border-radius: 5px;
+  border: 1px solid #8b0000;
+  transition: all .7s ease-out;
+  text-align: center;
+  padding: 15px;
+}
+
+.error-close {
+  float: right;
+  cursor: pointer;
+}
+
+#error.visible {
+  top: 40%;
+  left: 25%;
+}
