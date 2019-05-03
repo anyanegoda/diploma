@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :settings
   resources :extramular_subjects
   resources :works
   resources :name_works

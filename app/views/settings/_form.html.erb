@@ -1,0 +1,193 @@
+<%= form_with(model: setting, local: true) do |form| %>
+  <% if setting.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(setting.errors.count, "error") %> prohibited this setting from being saved:</h2>
+
+      <ul>
+      <% setting.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :discipline_full %>
+    <%= form.text_field :discipline_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :discipline_extramural %>
+    <%= form.text_field :discipline_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :training_direction_full %>
+    <%= form.text_field :training_direction_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :training_direction_extramural %>
+    <%= form.text_field :training_direction_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :course_full %>
+    <%= form.text_field :course_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :course_extramural %>
+    <%= form.text_field :course_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :contingent_full %>
+    <%= form.text_field :contingent_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :contingent_extramural %>
+    <%= form.text_field :contingent_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :subgroups_full %>
+    <%= form.text_field :subgroups_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :subgroups_extramural %>
+    <%= form.text_field :subgroups_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :semester_full %>
+    <%= form.text_field :semester_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :lectures_full %>
+    <%= form.text_field :lectures_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :lectures_extramural %>
+    <%= form.text_field :lectures_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :practical_classes_full %>
+    <%= form.text_field :practical_classes_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :practical_classes_extramural %>
+    <%= form.text_field :practical_classes_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :laboratory_classes_full %>
+    <%= form.text_field :laboratory_classes_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :laboratory_classes_extramural %>
+    <%= form.text_field :laboratory_classes_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :consultation_full %>
+    <%= form.text_field :consultation_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :consultation_extramural %>
+    <%= form.text_field :consultation_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :test_plan_full %>
+    <%= form.text_field :test_plan_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :test_plan_extramural %>
+    <%= form.text_field :test_plan_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :test_hours_full %>
+    <%= form.text_field :test_hours_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :test_hours_extramural %>
+    <%= form.text_field :test_hours_extramural %>
+  </div>
+
+
+  <div class="field">
+    <%= form.label :exam_full %>
+    <%= form.text_field :exam_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :exam_extramural %>
+    <%= form.text_field :exam_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :exam_v_extramural %>
+    <%= form.text_field :exam_v_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :exam_w_extramural %>
+    <%= form.text_field :exam_w_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :work_plan_full %>
+    <%= form.text_field :work_plan_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :work_plan_extramural %>
+    <%= form.text_field :work_plan_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :budget_hours_full %>
+    <%= form.text_field :budget_hours_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :budget_hours_extramural%>
+    <%= form.text_field :budget_hours_extramural%>
+  </div>
+
+  <div class="field">
+    <%= form.label :contract_hours_full %>
+    <%= form.text_field :contract_hours_full %>
+  </div>
+
+  <div class="field">
+    <%= form.label :contract_hours_extramural %>
+    <%= form.text_field :contract_hours_extramural %>
+  </div>
+
+  <div class="field">
+    <%= form.label :department %>
+    <%= form.text_field :department %>
+  </div>
+
+  <div class="field">
+    <%= form.label :modular_control_full %>
+    <%= form.text_field :modular_control_full %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

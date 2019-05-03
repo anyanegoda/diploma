@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_01_120044) do
+ActiveRecord::Schema.define(version: 2019_05_03_140729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,46 @@ ActiveRecord::Schema.define(version: 2019_05_01_120044) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.string "discipline_full"
+    t.string "discipline_extramural"
+    t.string "training_direction_full"
+    t.string "training_direction_extramural"
+    t.string "course_full"
+    t.string "course_extramural"
+    t.string "contingent_full"
+    t.string "contingent_extramural"
+    t.string "subgroups_full"
+    t.string "subgroups_extramural"
+    t.string "semester_full"
+    t.string "lectures_full"
+    t.string "lectures_extramural"
+    t.string "practical_classes_full"
+    t.string "practical_classes_extramural"
+    t.string "laboratory_classes_full"
+    t.string "laboratory_classes_extramural"
+    t.string "consultation_full"
+    t.string "consultation_extramural"
+    t.string "exam_extramural"
+    t.string "test_plan_full"
+    t.string "test_plan_extramural"
+    t.string "exam_full"
+    t.string "exam_v_extramural"
+    t.string "exam_w_extramural"
+    t.string "work_plan_full"
+    t.string "work_plan_extramural"
+    t.string "budget_hours_full"
+    t.string "budget_hours_extramural"
+    t.string "contract_hours_full"
+    t.string "contract_hours_extramural"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "department"
+    t.string "modular_control_full"
+    t.string "test_hours_full"
+    t.string "test_hours_extramural"
   end
 
   create_table "subjects", force: :cascade do |t|

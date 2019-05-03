@@ -11,6 +11,7 @@
     <b><%= link_to 'ПРЕДМЕТЫ - ОЧНАЯ ФОРМА ОБУЧЕНИЯ', subjects_path %></b>
     <b><%= link_to 'ПРЕДМЕТЫ - ЗАОЧНАЯ ФОРМА ОБУЧЕНИЯ', extramular_subjects_path %></b>
     <b><%= link_to 'ВНЕУЧЕБНАЯ РАБОТА', works_path %></b>
+    <b><%= link_to 'НАСТРОЙКИ', settings_path %></b>
     <br>
     <% if user_signed_in? %>
       <span>Здравствуйте, <%= current_user.email %></span>

@@ -6,14 +6,16 @@ class ExtramularSubjectsController < ApplicationController
   def insert_to_bd_extramular
     @xls = Roo::Spreadsheet.open(current_user.files_excels.last.input_file, {:expand_merged_ranges => true})
 
-    last_row = @xls.sheet('КТ').last_row
-    last_column = @xls.sheet('КТ').last_column
+    setting = Setting.last
+
+    last_row = @xls.sheet(setting.department).last_row
+    last_column = @xls.sheet(setting.department).last_column
     if !last_row.nil?
       for row in 1..last_row
-        col_contingent = @xls.sheet('КТ').row(row).find_index('Конт')
-        col_plan = @xls.sheet('КТ').row(row).find_index('Предусмотрено рабочим учебным планом')
-        col_hours_b = @xls.sheet('КТ').row(row).find_index('Расчёт часов (бюджет)')
-        col_hours_d = @xls.sheet('КТ').row(row).find_index('Расчёт часов (договор)')
+        col_contingent = @xls.sheet(setting.department).row(row).find_index(setting.contingent_extramural)
+        col_plan = @xls.sheet(setting.department).row(row).find_index(setting.work_plan_extramural)
+        col_hours_b = @xls.sheet(setting.department).row(row).find_index(setting.budget_hours_extramural)
+        col_hours_d = @xls.sheet(setting.department).row(row).find_index(setting.contract_hours_extramural)
 
         if col_contingent != nil
           contingent_row = row
@@ -38,9 +40,9 @@ class ExtramularSubjectsController < ApplicationController
     end
 
     for col in plan_col..hours_b_col-1
-      row_test = @xls.sheet('КТ').column(col).find_index('Зачёт')
-      row_exam_v = @xls.sheet('КТ').column(col).find_index('Экзамен усн')
-      row_exam_w = @xls.sheet('КТ').column(col).find_index('Экзамен письм')
+      row_test = @xls.sheet(setting.department).column(col).find_index(setting.test_plan_extramural)
+      row_exam_v = @xls.sheet(setting.department).column(col).find_index(setting.exam_v_extramural)
+      row_exam_w = @xls.sheet(setting.department).column(col).find_index(setting.exam_w_extramural)
       if row_test != nil
         test_row = row_test + 2
         test_col = col
@@ -56,12 +58,12 @@ class ExtramularSubjectsController < ApplicationController
     end
 
     for col in hours_b_col..hours_d_col-1
-      row_lectures_b = @xls.sheet('КТ').column(col).find_index('Лекций')
-      row_practical_classes_b = @xls.sheet('КТ').column(col).find_index('Практических занятий')
-      row_laboratory_classes_b = @xls.sheet('КТ').column(col).find_index('Лабораторных занятий')
-      row_consultation_b = @xls.sheet('КТ').column(col).find_index('Консультации')
-      row_test_b = @xls.sheet('КТ').column(col).find_index('Зачет')
-      row_exam_b = @xls.sheet('КТ').column(col).find_index('Экзамен')
+      row_lectures_b = @xls.sheet(setting.department).column(col).find_index(setting.lectures_extramural)
+      row_practical_classes_b = @xls.sheet(setting.department).column(col).find_index(setting.practical_classes_extramural)
+      row_laboratory_classes_b = @xls.sheet(setting.department).column(col).find_index(setting.laboratory_classes_extramural)
+      row_consultation_b = @xls.sheet(setting.department).column(col).find_index(setting.consultation_extramural)
+      row_test_b = @xls.sheet(setting.department).column(col).find_index(setting.test_hours_extramural)
+      row_exam_b = @xls.sheet(setting.department).column(col).find_index(setting.exam_extramural)
       if row_lectures_b != nil
         lectures_b_row = row_lectures_b + 2
         lectures_b_col = col
@@ -90,12 +92,12 @@ class ExtramularSubjectsController < ApplicationController
     end
 
     for col in hours_d_col..last_column
-      row_lectures_c = @xls.sheet('КТ').column(col).find_index('Лекций')
-      row_practical_classes_c = @xls.sheet('КТ').column(col).find_index('Практических занятий')
-      row_laboratory_classes_c = @xls.sheet('КТ').column(col).find_index('Лабораторных занятий')
-      row_consultation_c = @xls.sheet('КТ').column(col).find_index('Консультации')
-      row_test_c = @xls.sheet('КТ').column(col).find_index('Зачет')
-      row_exam_c = @xls.sheet('КТ').column(col).find_index('Экзамен')
+      row_lectures_c = @xls.sheet(setting.department).column(col).find_index(setting.lectures_extramural)
+      row_practical_classes_c = @xls.sheet(setting.department).column(col).find_index(setting.practical_classes_extramural)
+      row_laboratory_classes_c = @xls.sheet(setting.department).column(col).find_index(setting.laboratory_classes_extramural)
+      row_consultation_c = @xls.sheet(setting.department).column(col).find_index(setting.consultation_extramural)
+      row_test_c = @xls.sheet(setting.department).column(col).find_index(setting.test_hours_extramural)
+      row_exam_c = @xls.sheet(setting.department).column(col).find_index(setting.exam_extramural)
       if row_lectures_c != nil
         lectures_c_row = row_lectures_c + 2
         lectures_c_col = col
@@ -123,7 +125,7 @@ class ExtramularSubjectsController < ApplicationController
       end
     end
 
-    @xls.sheet('КТ').parse(name: 'Дисциплина', course: 'Курс', training_direction: 'Направление подготовки', group_quantity: 'Кол.подгр', clean:true).each do |value|
+    @xls.sheet(setting.department).parse(name: setting.discipline_extramural, course: setting.course_extramural, training_direction: setting.training_direction_extramural, group_quantity: setting.subgroups_extramural, clean:true).each do |value|
       contingent_row += 1
       lectures_b_row += 1
       lectures_c_row += 1
@@ -140,11 +142,11 @@ class ExtramularSubjectsController < ApplicationController
       test_row += 1
       exam_v_row += 1
       exam_w_row += 1
-      if value[:name] != nil && value[:name] != 'Дисциплина'
+      if value[:name] != nil && value[:name] != setting.discipline_extramural
 
-        quantity_test = @xls.sheet('КТ').cell(test_row, test_col)
-        quantity_exam_v = @xls.sheet('КТ').cell(exam_v_row, exam_v_col)
-        quantity_exam_w = @xls.sheet('КТ').cell(exam_w_row, exam_w_col)
+        quantity_test = @xls.sheet(setting.department).cell(test_row, test_col)
+        quantity_exam_v = @xls.sheet(setting.department).cell(exam_v_row, exam_v_col)
+        quantity_exam_w = @xls.sheet(setting.department).cell(exam_w_row, exam_w_col)
         if quantity_test != nil || quantity_exam_v != nil || quantity_exam_w != nil
           size = quantity_test + quantity_exam_v + quantity_exam_w #quantity semesters
         end
@@ -155,7 +157,7 @@ class ExtramularSubjectsController < ApplicationController
         semesters_course_4 = [7, 8]
 
         if size >= 2
-          quantity_lectures_b = @xls.sheet('КТ').cell(lectures_b_row, lectures_b_col)
+          quantity_lectures_b = @xls.sheet(setting.department).cell(lectures_b_row, lectures_b_col)
           quantity_lectures_b_sem = Array.new()
           if quantity_lectures_b != nil
             if quantity_lectures_b/quantity_lectures_b.floor == 1
@@ -177,7 +179,7 @@ class ExtramularSubjectsController < ApplicationController
             end
           end
 
-          quantity_lectures_c = @xls.sheet('КТ').cell(lectures_c_row, lectures_c_col)
+          quantity_lectures_c = @xls.sheet(setting.department).cell(lectures_c_row, lectures_c_col)
           quantity_lectures_c_sem = Array.new()
           if quantity_lectures_c != nil
             if quantity_lectures_c/quantity_lectures_c.floor == 1
@@ -199,7 +201,7 @@ class ExtramularSubjectsController < ApplicationController
             end
           end
 
-          quantity_practical_classes_b = @xls.sheet('КТ').cell(practical_classes_b_row, practical_classes_b_col)
+          quantity_practical_classes_b = @xls.sheet(setting.department).cell(practical_classes_b_row, practical_classes_b_col)
           quantity_practical_classes_b_sem = Array.new()
           if quantity_practical_classes_b != nil
             if quantity_practical_classes_b/quantity_practical_classes_b.floor == 1
@@ -221,7 +223,7 @@ class ExtramularSubjectsController < ApplicationController
             end
           end
 
-          quantity_practical_classes_c = @xls.sheet('КТ').cell(practical_classes_c_row, practical_classes_c_col)
+          quantity_practical_classes_c = @xls.sheet(setting.department).cell(practical_classes_c_row, practical_classes_c_col)
           quantity_practical_classes_c_sem = Array.new()
           if quantity_practical_classes_c != nil
             if quantity_practical_classes_c/quantity_practical_classes_c.floor == 1
@@ -243,7 +245,7 @@ class ExtramularSubjectsController < ApplicationController
             end
           end
 
-          quantity_laboratory_classes_b = @xls.sheet('КТ').cell(laboratory_classes_b_row, laboratory_classes_b_col)
+          quantity_laboratory_classes_b = @xls.sheet(setting.department).cell(laboratory_classes_b_row, laboratory_classes_b_col)
           quantity_laboratory_classes_b_sem = Array.new()
           if quantity_laboratory_classes_b != nil
             if quantity_laboratory_classes_b/quantity_laboratory_classes_b.floor == 1
@@ -265,7 +267,7 @@ class ExtramularSubjectsController < ApplicationController
             end
           end
 
-          quantity_laboratory_classes_c = @xls.sheet('КТ').cell(laboratory_classes_c_row, laboratory_classes_c_col)
+          quantity_laboratory_classes_c = @xls.sheet(setting.department).cell(laboratory_classes_c_row, laboratory_classes_c_col)
           quantity_laboratory_classes_c_sem = Array.new()
           if quantity_laboratory_classes_c != nil
             if quantity_laboratory_classes_c/quantity_laboratory_classes_c.floor == 1
@@ -305,22 +307,22 @@ class ExtramularSubjectsController < ApplicationController
               @item.semester = semesters_course_4[i]
             end
             @item.training_direction = value[:training_direction]
-            @item.student_b_quantity = @xls.sheet('КТ').cell(contingent_row, contingent_b_col)
-            @item.student_c_quantity = @xls.sheet('КТ').cell(contingent_row, contingent_c_col)
+            @item.student_b_quantity = @xls.sheet(setting.department).cell(contingent_row, contingent_b_col)
+            @item.student_c_quantity = @xls.sheet(setting.department).cell(contingent_row, contingent_c_col)
             @item.lectures_b = quantity_lectures_b_sem[i]
             @item.lectures_c = quantity_lectures_c_sem[i]
             @item.practical_classes_b = quantity_practical_classes_b_sem[i]
             @item.practical_classes_c = quantity_practical_classes_c_sem[i]
             @item.laboratory_classes_b = quantity_laboratory_classes_b_sem[i]
             @item.laboratory_classes_c = quantity_laboratory_classes_c_sem[i]
-            @item.consultation_semester_b = @xls.sheet('КТ').cell(consultation_b_row, consultation_semester_b_col)
-            @item.consultation_exam_b = @xls.sheet('КТ').cell(consultation_b_row, consultation_exam_b_col)
-            @item.test_b = @xls.sheet('КТ').cell(test_b_row, test_b_col)
-            @item.exam_b = @xls.sheet('КТ').cell(exam_b_row, exam_b_col).round(1)
-            @item.consultation_semester_c = @xls.sheet('КТ').cell(consultation_c_row, consultation_semester_c_col)
-            @item.consultation_exam_c = @xls.sheet('КТ').cell(consultation_c_row, consultation_exam_c_col)
-            @item.test_c = @xls.sheet('КТ').cell(test_c_row, test_c_col)
-            @item.exam_c = @xls.sheet('КТ').cell(exam_c_row, exam_c_col)
+            @item.consultation_semester_b = @xls.sheet(setting.department).cell(consultation_b_row, consultation_semester_b_col)
+            @item.consultation_exam_b = @xls.sheet(setting.department).cell(consultation_b_row, consultation_exam_b_col)
+            @item.test_b = @xls.sheet(setting.department).cell(test_b_row, test_b_col)
+            @item.exam_b = @xls.sheet(setting.department).cell(exam_b_row, exam_b_col).round(1)
+            @item.consultation_semester_c = @xls.sheet(setting.department).cell(consultation_c_row, consultation_semester_c_col)
+            @item.consultation_exam_c = @xls.sheet(setting.department).cell(consultation_c_row, consultation_exam_c_col)
+            @item.test_c = @xls.sheet(setting.department).cell(test_c_row, test_c_col)
+            @item.exam_c = @xls.sheet(setting.department).cell(exam_c_row, exam_c_col)
             @item.save
           end
         else
@@ -346,22 +348,22 @@ class ExtramularSubjectsController < ApplicationController
             end
           end
           @item.training_direction = value[:training_direction]
-          @item.student_b_quantity = @xls.sheet('КТ').cell(contingent_row, contingent_b_col)
-          @item.student_c_quantity = @xls.sheet('КТ').cell(contingent_row, contingent_c_col)
-          @item.lectures_b = @xls.sheet('КТ').cell(lectures_b_row, lectures_b_col)
-          @item.lectures_c = @xls.sheet('КТ').cell(lectures_c_row, lectures_c_col)
-          @item.practical_classes_b = @xls.sheet('КТ').cell(practical_classes_b_row, practical_classes_b_col)
-          @item.practical_classes_c = @xls.sheet('КТ').cell(practical_classes_c_row, practical_classes_c_col)
-          @item.laboratory_classes_b = @xls.sheet('КТ').cell(laboratory_classes_b_row, laboratory_classes_b_col)
-          @item.laboratory_classes_c = @xls.sheet('КТ').cell(laboratory_classes_c_row, laboratory_classes_c_col)
-          @item.consultation_semester_b = @xls.sheet('КТ').cell(consultation_b_row, consultation_semester_b_col)
-          @item.consultation_exam_b = @xls.sheet('КТ').cell(consultation_b_row, consultation_exam_b_col)
-          @item.test_b = @xls.sheet('КТ').cell(test_b_row, test_b_col)
-          @item.exam_b = @xls.sheet('КТ').cell(exam_b_row, exam_b_col).round(1)
-          @item.consultation_semester_c = @xls.sheet('КТ').cell(consultation_c_row, consultation_semester_c_col)
-          @item.consultation_exam_c = @xls.sheet('КТ').cell(consultation_c_row, consultation_exam_c_col)
-          @item.test_c = @xls.sheet('КТ').cell(test_c_row, test_c_col)
-          @item.exam_c = @xls.sheet('КТ').cell(exam_c_row, exam_c_col)
+          @item.student_b_quantity = @xls.sheet(setting.department).cell(contingent_row, contingent_b_col)
+          @item.student_c_quantity = @xls.sheet(setting.department).cell(contingent_row, contingent_c_col)
+          @item.lectures_b = @xls.sheet(setting.department).cell(lectures_b_row, lectures_b_col)
+          @item.lectures_c = @xls.sheet(setting.department).cell(lectures_c_row, lectures_c_col)
+          @item.practical_classes_b = @xls.sheet(setting.department).cell(practical_classes_b_row, practical_classes_b_col)
+          @item.practical_classes_c = @xls.sheet(setting.department).cell(practical_classes_c_row, practical_classes_c_col)
+          @item.laboratory_classes_b = @xls.sheet(setting.department).cell(laboratory_classes_b_row, laboratory_classes_b_col)
+          @item.laboratory_classes_c = @xls.sheet(setting.department).cell(laboratory_classes_c_row, laboratory_classes_c_col)
+          @item.consultation_semester_b = @xls.sheet(setting.department).cell(consultation_b_row, consultation_semester_b_col)
+          @item.consultation_exam_b = @xls.sheet(setting.department).cell(consultation_b_row, consultation_exam_b_col)
+          @item.test_b = @xls.sheet(setting.department).cell(test_b_row, test_b_col)
+          @item.exam_b = @xls.sheet(setting.department).cell(exam_b_row, exam_b_col).round(1)
+          @item.consultation_semester_c = @xls.sheet(setting.department).cell(consultation_c_row, consultation_semester_c_col)
+          @item.consultation_exam_c = @xls.sheet(setting.department).cell(consultation_c_row, consultation_exam_c_col)
+          @item.test_c = @xls.sheet(setting.department).cell(test_c_row, test_c_col)
+          @item.exam_c = @xls.sheet(setting.department).cell(exam_c_row, exam_c_col)
           @item.save
         end
       end
