@@ -10,6 +10,16 @@
 
 <h1>Extramular Subjects</h1>
 
+<select name="extramural-subject_id" id="select-extramural-subject" class="selected-sub">
+  <%= @extramular_subjects.each do |extramular_subject| %>
+    <% if extramular_subject.user_id == nil %>
+      <option value="<%= extramular_subject.id %>" data-id="<%= extramular_subject.id %>"><%= extramular_subject.subject_name %></option>
+    <% end %>
+  <% end %>
+</select>
+
+<%= button_tag "Add", class: "extramural-subject-select-add" %>
+
 <table>
   <thead>
     <tr>
@@ -17,7 +27,7 @@
       <th>Course</th>
       <th>Semester</th>
       <th>Training direction</th>
-      <th>Student b quantity</th>
+      <!-- <th>Student b quantity</th>
       <th>Student c quantity</th>
       <th>Lectures b</th>
       <th>Lectures c</th>
@@ -32,7 +42,7 @@
       <th>Consultation semester c</th>
       <th>Consultation exam c</th>
       <th>Test c</th>
-      <th>Exam c</th>
+      <th>Exam c</th> -->
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -44,22 +54,7 @@
         <td><%= extramular_subject.course %></td>
         <td><%= extramular_subject.semester %></td>
         <td><%= extramular_subject.training_direction %></td>
-        <td><%= extramular_subject.student_b_quantity %></td>
-        <td><%= extramular_subject.student_c_quantity %></td>
-        <td><%= extramular_subject.lectures_b %></td>
-        <td><%= extramular_subject.lectures_c %></td>
-        <td><%= extramular_subject.practical_classes_b %></td>
-        <td><%= extramular_subject.practical_classes_c %></td>
-        <td><%= extramular_subject.laboratory_classes_b %></td>
-        <td><%= extramular_subject.laboratory_classes_c %></td>
-        <td><%= extramular_subject.consultation_semester_b %></td>
-        <td><%= extramular_subject.consultation_exam_b %></td>
-        <td><%= extramular_subject.test_b %></td>
-        <td><%= extramular_subject.exam_b %></td>
-        <td><%= extramular_subject.consultation_semester_c %></td>
-        <td><%= extramular_subject.consultation_exam_c %></td>
-        <td><%= extramular_subject.test_c %></td>
-        <td><%= extramular_subject.exam_c %></td>
+        
         <td><%= link_to 'Show', extramular_subject %></td>
         <td><%= link_to 'Edit', edit_extramular_subject_path(extramular_subject) %></td>
         <td><%= link_to 'Destroy', extramular_subject, method: :delete, data: { confirm: 'Are you sure?' } %></td>

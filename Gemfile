@@ -37,6 +37,7 @@ gem 'mini_magick'
 gem "responders"
 gem "pundit"
 gem 'jquery-rails'
+gem 'write_xlsx'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

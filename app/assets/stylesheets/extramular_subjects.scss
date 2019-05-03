@@ -1,3 +1,26 @@
 // Place all the styles related to the extramular_subjects controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#error {
+  z-index: 999;
+  position: fixed;
+  bottom: -150%;
+  left: 0;
+  width: 50vw;
+  height: 10vh;
+  background-color: #cd5b45;
+  border-radius: 5px;
+  border: 1px solid #8b0000;
+  transition: all .7s ease-out;
+  text-align: center;
+  padding: 15px;
+}
+
+.error-close {
+  float: right;
+  cursor: pointer;
+}
+
+#error.visible {
+  bottom: 50%;
+}

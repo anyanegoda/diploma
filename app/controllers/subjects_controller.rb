@@ -2,6 +2,8 @@ class SubjectsController < ApplicationController
   require 'roo'
   require "pry"
   require 'writeexcel'
+  require 'rubygems'
+  require 'write_xlsx'
   before_action :set_subject, only: [:show, :edit, :update, :destroy]
 
   # GET /subjects
@@ -192,9 +194,12 @@ class SubjectsController < ApplicationController
 
   def create_excel
     # Create a new Excel Workbook
-    file_name = "Plan-#{Time.current.to_s.delete('UTC').parameterize.underscore}_#{current_user.surname}.xls"
-    workbook = WriteExcel.new(file_name)#, :border => 1)
+    file_name = "Plan-#{Time.current.to_s.delete('UTC').parameterize.underscore}_#{current_user.surname}.xlsx"
+    # workbook = WriteExcel.new(file_name)
+    workbook = WriteXLSX.new(file_name)
     @subjects = Subject.where(user_id: current_user.id)
+    @extramular_subjects = ExtramularSubject.where(user_id: current_user.id)
+    setting = Setting.last
     # Add worksheet(s)
     worksheet1 = workbook.add_worksheet
     worksheet2 = workbook.add_worksheet
@@ -451,7 +456,7 @@ class SubjectsController < ApplicationController
     worksheet1.write('A16', 'Кафедра', format_12_left)
     worksheet1.merge_range('B16:C16', 'Компьютерных технологий', format_bold_12_underline)
     worksheet1.merge_range('A21:F21', 'ИНДИВИДУАЛЬНЫЙ ПЛАН', format_bold_22)
-    worksheet1.merge_range('A22:F22', 'работы преподавателя на 2018 / 2019 учебный год ', format_bold_16)
+    worksheet1.merge_range('A22:F22', "работы преподавателя на #{setting.years} учебный год ", format_bold_16)
     worksheet1.merge_range('A25:B25', 'Фамилия, имя, отчество ', format_bold_12_left)
     worksheet1.merge_range('C25:F25', "#{current_user.surname} #{current_user.name} #{current_user.patronymic}", format_12_underline)
     worksheet1.merge_range('A27:C27', 'Ученое звание и ученая степень', format_bold_12_left)
@@ -475,7 +480,7 @@ class SubjectsController < ApplicationController
     worksheet2.set_column('D4:W4', 3)
     worksheet2.set_column('O4:R4', 3.5)
     worksheet2.set_column('X3:X4', 4.5)
-    worksheet2.merge_range('A1:X1', '1. Учебная работа на 2018/2019 уч.год', format_bold_14)
+    worksheet2.merge_range('A1:X1', "1. Учебная работа на #{setting.years} уч.год", format_bold_14)
     worksheet2.write('A2', 'ОСЕННИЙ СЕМЕСТР', format_bold_10)
     worksheet2.merge_range('A3:A4', 'Название учебных дисциплин и видов учебной работы', format_row_11)
     worksheet2.merge_range('B3:B4', 'Направле ние, специаль ность, факультет', format_row_8)
@@ -512,7 +517,7 @@ class SubjectsController < ApplicationController
     worksheet3.set_column('D4:W4', 3)
     worksheet3.set_column('O4:R4', 3.5)
     worksheet3.set_column('X3:X4', 4.5)
-    worksheet3.merge_range('A1:X1', '1. Учебная работа на 2018/2019 уч.год', format_bold_14)
+    worksheet3.merge_range('A1:X1', "1. Учебная работа на #{setting.years} уч.год", format_bold_14)
     worksheet3.write('A2', 'ВЕСЕННИЙ СЕМЕСТР', format_bold_10)
     worksheet3.merge_range('A3:A4', 'Название учебных дисциплин и видов учебной работы', format_row_11)
     worksheet3.merge_range('B3:B4', 'Направле ние, специаль ность, факультет', format_row_8)
@@ -552,49 +557,53 @@ class SubjectsController < ApplicationController
     row_autumn = row
     row_spring = row
     @subjects.each do |subject|
-      if subject.semester % 2 == 0
-        row_autumn += 1
-        worksheet2.write("A#{row_autumn}", subject.subject_name, format_11_left)
-        worksheet2.write("B#{row_autumn}", subject.training_direction, format_11)
-        worksheet2.write("C#{row_autumn}", subject.group_quantity, format_11)
-        worksheet2.write("D#{row_autumn}", subject.course, format_11)
-        worksheet2.write("E#{row_autumn}", subject.student_b_quantity, format_8)
-        worksheet2.write("F#{row_autumn}", subject.lectures, format_8)
-        worksheet2.write("G#{row_autumn}", subject.practical_classes, format_8)
-        worksheet2.write("H#{row_autumn}", subject.laboratory_classes, format_8)
-        worksheet2.write("I#{row_autumn}", subject.modular_control_b, format_8)
-        worksheet2.write("J#{row_autumn}", subject.consultation_semester_b, format_8)
-        worksheet2.write("K#{row_autumn}", subject.consultation_exam_b, format_8)
-        worksheet2.write("L#{row_autumn}", subject.test_b, format_8)
-        worksheet2.write("M#{row_autumn}", subject.exam_b, format_8)
-        worksheet2.write("X#{row_autumn}", "=SUM(F#{row_autumn}:W#{row_autumn})", format_8)
-        ("N".."W").to_a.each do |letter|
-          worksheet2.write_blank("#{letter}#{row_autumn}", format_8)
-        end
-      else
-        row_spring += 1
-        worksheet3.write("A#{row_spring}", subject.subject_name, format_11_left)
-        worksheet3.write("B#{row_spring}", subject.training_direction, format_11)
-        worksheet3.write("C#{row_spring}", subject.group_quantity, format_11)
-        worksheet3.write("D#{row_spring}", subject.course, format_11)
-        worksheet3.write("E#{row_spring}", subject.student_b_quantity, format_8)
-        worksheet3.write("F#{row_spring}", subject.lectures, format_8)
-        worksheet3.write("G#{row_spring}", subject.practical_classes, format_8)
-        worksheet3.write("H#{row_spring}", subject.laboratory_classes, format_8)
-        worksheet3.write("I#{row_spring}", subject.modular_control_b, format_8)
-        worksheet3.write("J#{row_spring}", subject.consultation_semester_b, format_8)
-        worksheet3.write("K#{row_spring}", subject.consultation_exam_b, format_8)
-        worksheet3.write("L#{row_spring}", subject.test_b, format_8)
-        worksheet3.write("M#{row_spring}", subject.exam_b, format_8)
-        worksheet3.write("X#{row_spring}", "=SUM(F#{row_spring}:W#{row_spring})", format_8)
-        ("N".."W").to_a.each do |letter|
-          worksheet3.write_blank("#{letter}#{row_spring}", format_8)
+      if subject.student_b_quantity != 0
+        if subject.semester % 2 == 0
+          row_autumn += 1
+          worksheet2.write("A#{row_autumn}", subject.subject_name, format_11_left)
+          worksheet2.write("B#{row_autumn}", subject.training_direction, format_11)
+          worksheet2.write("C#{row_autumn}", subject.group_quantity, format_11)
+          worksheet2.write("D#{row_autumn}", subject.course, format_11)
+          worksheet2.write("E#{row_autumn}", subject.student_b_quantity, format_8)
+          worksheet2.write("F#{row_autumn}", subject.lectures, format_8)
+          worksheet2.write("G#{row_autumn}", subject.practical_classes, format_8)
+          worksheet2.write("H#{row_autumn}", subject.laboratory_classes, format_8)
+          worksheet2.write("I#{row_autumn}", subject.modular_control_b, format_8)
+          worksheet2.write("J#{row_autumn}", subject.consultation_semester_b, format_8)
+          worksheet2.write("K#{row_autumn}", subject.consultation_exam_b, format_8)
+          worksheet2.write("L#{row_autumn}", subject.test_b, format_8)
+          worksheet2.write("M#{row_autumn}", subject.exam_b, format_8)
+          worksheet2.write("X#{row_autumn}", "=SUM(F#{row_autumn}:W#{row_autumn})", format_8)
+          ("N".."W").to_a.each do |letter|
+            worksheet2.write_blank("#{letter}#{row_autumn}", format_8)
+          end
+        else
+          row_spring += 1
+          worksheet3.write("A#{row_spring}", subject.subject_name, format_11_left)
+          worksheet3.write("B#{row_spring}", subject.training_direction, format_11)
+          worksheet3.write("C#{row_spring}", subject.group_quantity, format_11)
+          worksheet3.write("D#{row_spring}", subject.course, format_11)
+          worksheet3.write("E#{row_spring}", subject.student_b_quantity, format_8)
+          worksheet3.write("F#{row_spring}", subject.lectures, format_8)
+          worksheet3.write("G#{row_spring}", subject.practical_classes, format_8)
+          worksheet3.write("H#{row_spring}", subject.laboratory_classes, format_8)
+          worksheet3.write("I#{row_spring}", subject.modular_control_b, format_8)
+          worksheet3.write("J#{row_spring}", subject.consultation_semester_b, format_8)
+          worksheet3.write("K#{row_spring}", subject.consultation_exam_b, format_8)
+          worksheet3.write("L#{row_spring}", subject.test_b, format_8)
+          worksheet3.write("M#{row_spring}", subject.exam_b, format_8)
+          worksheet3.write("X#{row_spring}", "=SUM(F#{row_spring}:W#{row_spring})", format_8)
+          ("N".."W").to_a.each do |letter|
+            worksheet3.write_blank("#{letter}#{row_spring}", format_8)
+          end
         end
       end
     end
 
     row_autumn += 1
     row_spring += 1
+    end_b_autumn = row_autumn
+    end_b_spring = row_spring
     worksheet2.write("A#{row_autumn}", 'Итого по очной форме обучения (бюджет)', format_title_left)
     worksheet3.write("A#{row_spring}", 'Итого по очной форме обучения (бюджет)', format_title_left)
     ("B".."E").to_a.each do |letter|
@@ -627,7 +636,7 @@ class SubjectsController < ApplicationController
         if subject.semester % 2 == 0
           row_autumn += 1
           worksheet2.write("A#{row_autumn}", subject.subject_name, format_11_left)
-          worksheet2.write("B#{row_autumn}", "ИВТ", format_11)
+          worksheet2.write("B#{row_autumn}", subject.training_direction, format_11)
           # worksheet2.write("C#{row_autumn}", subject.group_quantity, format_11)
           worksheet2.write_blank("C#{row_autumn}", format_11)
           worksheet2.write("D#{row_autumn}", subject.course, format_11)
@@ -650,7 +659,7 @@ class SubjectsController < ApplicationController
         else
           row_spring += 1
           worksheet3.write("A#{row_spring}", subject.subject_name, format_11_left)
-          worksheet3.write("B#{row_spring}", "ИВТ", format_11)
+          worksheet3.write("B#{row_spring}", subject.training_direction, format_11)
           # worksheet3.write("C#{row_spring}", subject.group_quantity, format_11)
           worksheet3.write_blank("C#{row_spring}", format_11)
           worksheet3.write("D#{row_spring}", subject.course, format_11)
@@ -676,6 +685,8 @@ class SubjectsController < ApplicationController
 
     row_autumn += 1
     row_spring += 1
+    total_full_contract_autumn = row_autumn
+    total_full_contract_spring = row_spring
     worksheet2.write("A#{row_autumn}", 'Итого по очной форме обучения (контракт)', format_title_left)
     worksheet3.write("A#{row_spring}", 'Итого по очной форме обучения (контракт)', format_title_left)
     # worksheet2.write("F#{row}", "=SUM(F#{start_c}:F#{row-1})")
@@ -696,6 +707,8 @@ class SubjectsController < ApplicationController
 
     row_autumn += 1
     row_spring += 1
+    total_budget_autumn = row_autumn
+    total_budget_spring = row_spring
     worksheet2.write("A#{row_autumn}", 'Итого по очной форме обучения', format_title_italic)
     worksheet3.write("A#{row_spring}", 'Итого по очной форме обучения', format_title_italic)
     ("B".."E").to_a.each do |letter|
@@ -706,12 +719,358 @@ class SubjectsController < ApplicationController
     end
     ("F".."X").to_a.each do |letter|
       worksheet2.write_blank("#{letter}#{row_autumn}", format_8_bold_border)
-      worksheet2.write("#{letter}#{row_autumn}", "=SUM(#{letter}#{start_b}:#{letter}#{row_autumn-1})", format_8_bold_border)
+      worksheet2.write("#{letter}#{row_autumn}", "=SUM(#{letter}#{end_b_autumn},#{letter}#{row_autumn-1})", format_8_bold_border)
     end
     ("F".."X").to_a.each do |letter|
       worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
-      worksheet3.write("#{letter}#{row_spring}", "=SUM(#{letter}#{start_b}:#{letter}#{row_spring-1})", format_8_bold_border)
+      worksheet3.write("#{letter}#{row_spring}", "=SUM(#{letter}#{end_b_spring},#{letter}#{row_spring-1})", format_8_bold_border)
     end
+
+    row_autumn += 1
+    row_spring += 1
+    worksheet2.write("A#{row_autumn}", 'Заочная форма обучения (бюджет)', format_title_center)
+    worksheet3.write("A#{row_spring}", 'Заочная форма обучения (бюджет)', format_title_center)
+    ("B".."X").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8_bold_border)
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+    end
+
+    start_extr_b_autumn = row_autumn + 1
+    start_extr_b_spring = row_spring + 1
+
+    @extramular_subjects.each do |extramular_subject|
+      if extramular_subject.student_b_quantity != 0
+        if extramular_subject.semester % 2 == 0
+          row_autumn += 1
+          worksheet2.write("A#{row_autumn}", extramular_subject.subject_name, format_11_left)
+          worksheet2.write("B#{row_autumn}", extramular_subject.training_direction, format_11)
+          worksheet2.write("C#{row_autumn}", extramular_subject.group_quantity, format_11)
+          worksheet2.write("D#{row_autumn}", extramular_subject.course, format_11)
+          worksheet2.write("E#{row_autumn}", extramular_subject.student_b_quantity, format_8)
+          worksheet2.write("F#{row_autumn}", extramular_subject.lectures_b, format_8)
+          worksheet2.write("G#{row_autumn}", extramular_subject.practical_classes_b, format_8)
+          worksheet2.write("H#{row_autumn}", extramular_subject.laboratory_classes_b, format_8)
+          worksheet2.write_blank("I#{row_autumn}", format_8)
+          worksheet2.write("J#{row_autumn}", extramular_subject.consultation_semester_b, format_8)
+          worksheet2.write("K#{row_autumn}", extramular_subject.consultation_exam_b, format_8)
+          worksheet2.write("L#{row_autumn}", extramular_subject.test_b, format_8)
+          worksheet2.write("M#{row_autumn}", extramular_subject.exam_b, format_8)
+          worksheet2.write("X#{row_autumn}", "=SUM(F#{row_autumn}:W#{row_autumn})", format_8)
+          ("N".."W").to_a.each do |letter|
+            worksheet2.write_blank("#{letter}#{row_autumn}", format_8)
+          end
+        else
+          row_spring += 1
+          worksheet3.write("A#{row_spring}", extramular_subject.subject_name, format_11_left)
+          worksheet3.write("B#{row_spring}", extramular_subject.training_direction, format_11)
+          worksheet3.write("C#{row_spring}", extramular_subject.group_quantity, format_11)
+          worksheet3.write("D#{row_spring}", extramular_subject.course, format_11)
+          worksheet3.write("E#{row_spring}", extramular_subject.student_b_quantity, format_8)
+          worksheet3.write("F#{row_spring}", extramular_subject.lectures_b, format_8)
+          worksheet3.write("G#{row_spring}", extramular_subject.practical_classes_b, format_8)
+          worksheet3.write("H#{row_spring}", extramular_subject.laboratory_classes_b, format_8)
+          worksheet3.write_blank("I#{row_spring}", format_8)
+          worksheet3.write("J#{row_spring}", extramular_subject.consultation_semester_b, format_8)
+          worksheet3.write("K#{row_spring}", extramular_subject.consultation_exam_b, format_8)
+          worksheet3.write("L#{row_spring}", extramular_subject.test_b, format_8)
+          worksheet3.write("M#{row_spring}", extramular_subject.exam_b, format_8)
+          worksheet3.write("X#{row_spring}", "=SUM(F#{row_spring}:W#{row_spring})", format_8)
+          ("N".."W").to_a.each do |letter|
+            worksheet3.write_blank("#{letter}#{row_spring}", format_8)
+          end
+        end
+      end
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    total_extr_budget_autumn = row_autumn
+    total_extr_budget_spring = row_spring
+    worksheet2.write("A#{row_autumn}", 'Итого по заочной форме обучения (бюджет)', format_title_left)
+    worksheet3.write("A#{row_spring}", 'Итого по заочной форме обучения (бюджет)', format_title_left)
+    ("B".."E").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8_bold_border)
+    end
+    ("B".."E").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+    end
+    ("F".."X").to_a.each do |letter|
+      worksheet2.write("#{letter}#{row_autumn}", "=SUM(#{letter}#{start_extr_b_autumn}:#{letter}#{row_autumn-1})",format_8_bold_border)
+    end
+    ("F".."X").to_a.each do |letter|
+      worksheet3.write("#{letter}#{row_spring}", "=SUM(#{letter}#{start_extr_b_spring}:#{letter}#{row_spring-1})",format_8_bold_border)
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    worksheet2.write("A#{row_autumn}", 'Заочная форма обучения (контракт)', format_title_center)
+    worksheet3.write("A#{row_spring}", 'Заочная форма обучения (контракт)', format_title_center)
+    ("B".."X").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8_bold_border)
+    end
+    ("B".."X").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+    end
+
+    start_extr_c_autumn = row_autumn + 1
+    start_extr_c_spring = row_spring + 1
+    @extramular_subjects.each do |extramular_subject|
+      if extramular_subject.student_c_quantity != 0
+        if extramular_subject.semester % 2 == 0
+          row_autumn += 1
+          worksheet2.write("A#{row_autumn}", extramular_subject.subject_name, format_11_left)
+          worksheet2.write("B#{row_autumn}", extramular_subject.training_direction, format_11)
+          worksheet2.write("C#{row_autumn}", extramular_subject.group_quantity, format_11)
+          worksheet2.write("D#{row_autumn}", extramular_subject.course, format_11)
+          worksheet2.write("E#{row_autumn}", extramular_subject.student_c_quantity, format_8)
+          worksheet2.write("F#{row_autumn}", extramular_subject.lectures_c, format_8)
+          worksheet2.write("G#{row_autumn}", extramular_subject.practical_classes_c, format_8)
+          worksheet2.write("H#{row_autumn}", extramular_subject.laboratory_classes_c, format_8)
+          worksheet2.write_blank("I#{row_autumn}", format_8)
+          worksheet2.write("J#{row_autumn}", extramular_subject.consultation_semester_c, format_8)
+          worksheet2.write("K#{row_autumn}", extramular_subject.consultation_exam_c, format_8)
+          worksheet2.write("L#{row_autumn}", extramular_subject.test_c, format_8)
+          worksheet2.write("M#{row_autumn}", extramular_subject.exam_c, format_8)
+          worksheet2.write("X#{row_autumn}", "=SUM(F#{row_autumn}:W#{row_autumn})", format_8)
+          ("N".."W").to_a.each do |letter|
+            worksheet2.write_blank("#{letter}#{row_autumn}", format_8)
+          end
+        else
+          row_spring += 1
+          worksheet3.write("A#{row_spring}", extramular_subject.subject_name, format_11_left)
+          worksheet3.write("B#{row_spring}", extramular_subject.training_direction, format_11)
+          worksheet3.write("C#{row_spring}", extramular_subject.group_quantity, format_11)
+          worksheet3.write("D#{row_spring}", extramular_subject.course, format_11)
+          worksheet3.write("E#{row_spring}", extramular_subject.student_c_quantity, format_8)
+          worksheet3.write("F#{row_spring}", extramular_subject.lectures_c, format_8)
+          worksheet3.write("G#{row_spring}", extramular_subject.practical_classes_c, format_8)
+          worksheet3.write("H#{row_spring}", extramular_subject.laboratory_classes_c, format_8)
+          worksheet3.write_blank("I#{row_spring}", format_8)
+          worksheet3.write("J#{row_spring}", extramular_subject.consultation_semester_c, format_8)
+          worksheet3.write("K#{row_spring}", extramular_subject.consultation_exam_c, format_8)
+          worksheet3.write("L#{row_spring}", extramular_subject.test_c, format_8)
+          worksheet3.write("M#{row_spring}", extramular_subject.exam_c, format_8)
+          worksheet3.write("X#{row_spring}", "=SUM(F#{row_spring}:W#{row_spring})", format_8)
+          ("N".."W").to_a.each do |letter|
+            worksheet3.write_blank("#{letter}#{row_spring}", format_8)
+          end
+        end
+      end
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    total_extr_contract_autumn = row_autumn
+    total_extr_contract_spring = row_spring
+    worksheet2.write("A#{row_autumn}", 'Итого по заочной форме обучения (контракт)', format_title_left)
+    worksheet3.write("A#{row_spring}", 'Итого по заочной форме обучения (контракт)', format_title_left)
+    ("B".."H").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8_bold_border)
+    end
+    ("B".."H").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+    end
+    ("I".."X").to_a.each do |letter|
+      worksheet2.write("#{letter}#{row_autumn}", "=SUM(#{letter}#{start_extr_c_autumn}:#{letter}#{row_autumn-1})", format_8_bold_border)
+    end
+    ("I".."X").to_a.each do |letter|
+      worksheet3.write("#{letter}#{row_spring}", "=SUM(#{letter}#{start_extr_c_spring}:#{letter}#{row_spring-1})", format_8_bold_border)
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    total_contract_autumn = row_autumn
+    total_contract_spring = row_spring
+    worksheet2.write("A#{row_autumn}", 'Итого по заочной форме обучения', format_title_italic)
+    worksheet3.write("A#{row_spring}", 'Итого по заочной форме обучения', format_title_italic)
+    ("B".."E").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8_bold_border)
+    end
+    ("B".."E").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+    end
+    ("F".."X").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8_bold_border)
+      worksheet2.write("#{letter}#{row_autumn}", "=SUM(#{letter}#{total_extr_budget_autumn},#{letter}#{row_autumn-1})", format_8_bold_border)
+    end
+    ("F".."X").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+      worksheet3.write("#{letter}#{row_spring}", "=SUM(#{letter}#{total_extr_budget_spring},#{letter}#{row_spring-1})", format_8_bold_border)
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    total_budget_autumn_semester = row_autumn
+    total_budget_spring_semester = row_spring
+    worksheet2.write("A#{row_autumn}", 'Итого за I семестр (бюджет)', format_title_left)
+    worksheet3.write("A#{row_spring}", 'Итого за II семестр (бюджет)', format_title_left)
+    ("B".."H").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8_bold_border)
+    end
+    ("B".."H").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+    end
+    ("I".."X").to_a.each do |letter|
+      worksheet2.write("#{letter}#{row_autumn}", "=SUM(#{letter}#{end_b_autumn},#{letter}#{total_extr_budget_autumn})", format_8_bold_border)
+    end
+    ("I".."X").to_a.each do |letter|
+      worksheet3.write("#{letter}#{row_spring}", "=SUM(#{letter}#{end_b_spring}:#{letter}#{total_extr_budget_spring})", format_8_bold_border)
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    total_contract_autumn_semester = row_autumn
+    total_contract_spring_semester = row_spring
+    worksheet2.write("A#{row_autumn}", 'Итого за I семестр (контракт)', format_title_left)
+    worksheet3.write("A#{row_spring}", 'Итого за II семестр (контракт)', format_title_left)
+    ("B".."H").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8_bold_border)
+    end
+    ("B".."H").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+    end
+    ("I".."X").to_a.each do |letter|
+      worksheet2.write("#{letter}#{row_autumn}", "=SUM(#{letter}#{total_full_contract_autumn},#{letter}#{total_extr_contract_autumn})", format_8_bold_border)
+    end
+    ("I".."X").to_a.each do |letter|
+      worksheet3.write("#{letter}#{row_spring}", "=SUM(#{letter}#{total_full_contract_spring}:#{letter}#{total_extr_contract_spring})", format_8_bold_border)
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    total_autumn_semester = row_autumn
+    total_spring_semester = row_spring
+    worksheet2.write("A#{row_autumn}", 'Итого за I семестр', format_title_italic)
+    worksheet3.write("A#{row_spring}", 'Итого за II семестр', format_title_italic)
+    ("B".."H").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8_bold_border)
+    end
+    ("B".."H").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+    end
+    ("I".."X").to_a.each do |letter|
+      worksheet2.write("#{letter}#{row_autumn}", "=SUM(#{letter}#{total_full_contract_autumn},#{letter}#{total_contract_autumn})", format_8_bold_border)
+    end
+    ("I".."X").to_a.each do |letter|
+      worksheet3.write("#{letter}#{row_spring}", "=SUM(#{letter}#{total_full_contract_spring},#{letter}#{total_contract_spring})", format_8_bold_border)
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    total_budget = row_spring
+    worksheet2.merge_range("A#{row_autumn}:X#{row_autumn}", "                                 Преподаватель ____________________________________   Заведующий кафедрой _________________________  ______________________", format_row_11)
+    worksheet3.write("A#{row_spring}", 'Всего часов по плану за год (бюджет)', format_title_left)
+    ("B".."H").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+    end
+    ("I".."X").to_a.each do |letter|
+      worksheet3.write("#{letter}#{row_spring}", "=SUM(Sheet2!#{letter}#{total_budget_autumn_semester},#{letter}#{total_budget_spring_semester})", format_8_bold_border)
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    total_contract = row_spring
+    worksheet2.write("A#{row_autumn}", '    ФАКТИЧЕСКОЕ ВЫПОЛНЕНИЕ ЗА I СЕМЕСТР', format_bold_10)
+    worksheet3.write("A#{row_spring}", 'Всего часов по плану за год (контракт)', format_title_left)
+    ("B".."H").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+    end
+    ("I".."X").to_a.each do |letter|
+      worksheet3.write("#{letter}#{row_spring}", "=SUM(Sheet2!#{letter}#{total_contract_autumn_semester},#{letter}#{total_contract_spring_semester})", format_8_bold_border)
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    worksheet2.write("A#{row_autumn}", 'Сентябрь', format_11_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8)
+    end
+    worksheet3.write("A#{row_spring}", 'Всего часов по плану за год (контракт)', format_title_left)
+    ("B".."H").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+    end
+    ("I".."X").to_a.each do |letter|
+      worksheet3.write("#{letter}#{row_spring}", "=SUM(#{letter}#{total_budget},#{letter}#{total_contract})", format_8_bold_border)
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    worksheet2.write("A#{row_autumn}", 'Октябрь', format_11_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8)
+    end
+    worksheet3.merge_range("A#{row_spring}:X#{row_spring}", "                                 Преподаватель ____________________________________   Заведующий кафедрой _________________________  ______________________", format_row_11)
+
+    row_autumn += 1
+    row_spring += 1
+    worksheet2.write("A#{row_autumn}", 'Ноябрь', format_11_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8)
+    end
+    worksheet3.write("A#{row_spring}", '    ФАКТИЧЕСКОЕ ВЫПОЛНЕНИЕ ЗА II СЕМЕСТР', format_bold_10)
+
+    row_autumn += 1
+    row_spring += 1
+    worksheet2.write("A#{row_autumn}", 'Декабрь', format_11_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8)
+    end
+    worksheet3.write("A#{row_spring}", 'Январь', format_11_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8)
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    worksheet2.write("A#{row_autumn}", 'Январь', format_11_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8)
+    end
+    worksheet3.write("A#{row_spring}", 'Февраль', format_11_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8)
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    worksheet2.write("A#{row_autumn}", 'Итого за I семестр', format_title_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet2.write_blank("#{letter}#{row_autumn}", format_8_bold_border)
+    end
+    worksheet3.write("A#{row_spring}", 'Март', format_11_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8)
+    end
+
+    row_autumn += 1
+    row_spring += 1
+    worksheet2.merge_range("A#{row_autumn}:X#{row_autumn}", "                                 Преподаватель ____________________________________   Заведующий кафедрой _________________________  ______________________", format_row_11)
+    worksheet3.write("A#{row_spring}", 'Апрель', format_11_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8)
+    end
+
+    row_spring += 1
+    worksheet3.write("A#{row_spring}", 'Май', format_11_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8)
+    end
+
+    row_spring += 1
+    worksheet3.write("A#{row_spring}", 'Июнь', format_11_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8)
+    end
+
+    row_spring += 1
+    worksheet3.write("A#{row_spring}", 'Итого за II семестр', format_title_left)
+    ("B".."X").to_a.each do |letter|
+      worksheet3.write_blank("#{letter}#{row_spring}", format_8_bold_border)
+    end
+
+    row_spring += 1
+    worksheet3.merge_range("A#{row_spring}:X#{row_spring}", "                                 Преподаватель ____________________________________   Заведующий кафедрой _________________________  ______________________", format_row_11)
+
 
     #УЧЕБНО-МЕТОДИЧЕСКАЯ РАБОТА
     worksheet4.set_row(0, 24)
@@ -722,7 +1081,7 @@ class SubjectsController < ApplicationController
     worksheet4.set_column('C2:D2', 8)
     worksheet4.set_column('E2:F2', 10)
 
-    worksheet4.merge_range('A1:F1', 'ІІ. УЧЕБНО-МЕТОДИЧЕСКАЯ РАБОТА НА 2018/ 2019 учебный год', format_bold_11)
+    worksheet4.merge_range('A1:F1', "ІІ. УЧЕБНО-МЕТОДИЧЕСКАЯ РАБОТА НА #{setting.years} учебный год", format_bold_11)
     worksheet4.merge_range('A2:A3', '№   п/п', format_9_bold_border)
     worksheet4.merge_range('B2:B3', 'Содержание', format_10_bold_border)
     worksheet4.merge_range('C2:D2', 'Кол-во часов', format_10_bold_border)
@@ -767,7 +1126,7 @@ class SubjectsController < ApplicationController
     worksheet5.set_column('C2:D2', 8)
     worksheet5.set_column('E2:F2', 10)
 
-    worksheet5.merge_range('A1:F1', 'ІІI. НАУЧНО-ИССЛЕДОВАТЕЛЬСКАЯ РАБОТА НА 2018/ 2019 учебный год', format_bold_11)
+    worksheet5.merge_range('A1:F1', "ІІI. НАУЧНО-ИССЛЕДОВАТЕЛЬСКАЯ РАБОТА НА #{setting.years} учебный год", format_bold_11)
     worksheet5.merge_range('A2:A3', '№   п/п', format_9_bold_border)
     worksheet5.merge_range('B2:B3', 'Содержание', format_10_bold_border)
     worksheet5.merge_range('C2:D2', 'Кол-во часов', format_10_bold_border)
@@ -815,7 +1174,7 @@ class SubjectsController < ApplicationController
     worksheet6.set_column('C2:D2', 8)
     worksheet6.set_column('E2:F2', 10)
 
-    worksheet6.merge_range('A1:F1', 'ІV. ОРГАНИЗАЦИОННО-МЕТОДИЧЕСКАЯ РАБОТА НА 2018/ 2019 учебный год', format_bold_11)
+    worksheet6.merge_range('A1:F1', "ІV. ОРГАНИЗАЦИОННО-МЕТОДИЧЕСКАЯ РАБОТА НА #{setting.years} учебный год", format_bold_11)
     worksheet6.merge_range('A2:A3', '№   п/п', format_9_bold_border)
     worksheet6.merge_range('B2:B3', 'Содержание', format_10_bold_border)
     worksheet6.merge_range('C2:D2', 'Кол-во часов', format_10_bold_border)
@@ -852,7 +1211,7 @@ class SubjectsController < ApplicationController
     worksheet6.merge_range('A19:F19', '                                 (подпись)                                                                           (подпись)               (фамилия и инициалы)', format_8_works)
 
     #ВОСПИТАТЕЛЬНАЯ РАБОТА
-    worksheet6.merge_range('A20:F20', 'V. ВОСПИТАТЕЛЬНАЯ РАБОТА НА 2018/ 2019 учебный год', format_bold_11)
+    worksheet6.merge_range('A20:F20', "V. ВОСПИТАТЕЛЬНАЯ РАБОТА НА #{setting.years} учебный год", format_bold_11)
     worksheet6.merge_range('A21:A22', '№   п/п', format_9_bold_border)
     worksheet6.merge_range('B21:B22', 'Содержание', format_10_bold_border)
     worksheet6.merge_range('C21:D21', 'Кол-во часов', format_10_bold_border)

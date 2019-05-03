@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   post '/insert_to_bd', to: 'subjects#insert_to_bd', as: :insert_to_bd
   post '/create_excel', to: 'subjects#create_excel', as: :create_excel
   post '/insert_user_id', to: 'subjects#insert_user_id', as: :insert_user_id
+  post '/insert_extramural_user_id', to: 'extramular_subjects#insert_extramural_user_id', as: :insert_extramural_user_id
   post '/destroy_all_subjects', to: 'subjects#destroy_all_subjects', as: :destroy_all_subjects
   post '/destroy_all_extramular_subjects', to: 'extramular_subjects#destroy_all_extramular_subjects', as: :destroy_all_extramular_subjects
   post '/destroy_all_output_files', to: 'subjects#destroy_all_output_files', as: :destroy_all_output_files

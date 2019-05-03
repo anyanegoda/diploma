@@ -3,6 +3,14 @@ class ExtramularSubjectsController < ApplicationController
 
   respond_to :html
 
+  def insert_extramural_user_id
+    @subject_id = params[:subject_id]
+    @temp = ExtramularSubject.find(@subject_id)
+    @temp.user_id = current_user.id
+    @temp.save
+    render json: @subject_id
+  end
+
   def insert_to_bd_extramular
     @xls = Roo::Spreadsheet.open(current_user.files_excels.last.input_file, {:expand_merged_ranges => true})
 
@@ -297,9 +305,9 @@ class ExtramularSubjectsController < ApplicationController
             else
               @item.course = value[:course]
             end
-            if value[:course] == 1 || value[:course] == "1 М" || value[:course] == "1М" || value[:course] == "1 м" || value[:course] == "1м"
+            if value[:course] == 1 || value[:course] == "1 М" || value[:course] == "1М" || value[:course] == "1 м" || value[:course] == "1м" || value[:course] == "м1" || value[:course] == "м 1" || value[:course] == "М1" || value[:course] == "М 1"
               @item.semester = semesters_course_1[i]
-            elsif value[:course] == 2 || value[:course] == "2 М" || value[:course] == "2М" || value[:course] == "2 м" || value[:course] == "2м"
+            elsif value[:course] == 2 || value[:course] == "2 М" || value[:course] == "2М" || value[:course] == "2 м" || value[:course] == "2м" || value[:course] == "м2" || value[:course] == "м 2" || value[:course] == "М2" || value[:course] == "М 2"
               @item.semester = semesters_course_2[i]
             elsif value[:course] == 3
               @item.semester = semesters_course_3[i]
@@ -337,9 +345,9 @@ class ExtramularSubjectsController < ApplicationController
           if arr != nil
             @item.semester = arr.semester
           else
-            if value[:course] == 1 || value[:course] == "1 М" || value[:course] == "1М" || value[:course] == "1 м" || value[:course] == "1м"
+            if value[:course] == 1 || value[:course] == "1 М" || value[:course] == "1М" || value[:course] == "1 м" || value[:course] == "1м" || value[:course] == "м1" || value[:course] == "м 1" || value[:course] == "М1" || value[:course] == "М 1"
               @item.semester = 1
-            elsif value[:course] == 2 || value[:course] == "2 М" || value[:course] == "2М" || value[:course] == "2 м" || value[:course] == "2м"
+            elsif value[:course] == 2 || value[:course] == "2 М" || value[:course] == "2М" || value[:course] == "2 м" || value[:course] == "2м" || value[:course] == "м2" || value[:course] == "м 2" || value[:course] == "М2" || value[:course] == "М 2"
               @item.semester = 3
             elsif value[:course] == 3
               @item.semester = 5
