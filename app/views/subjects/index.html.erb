@@ -1,4 +1,5 @@
 <p id="notice"><%= notice %></p>
+
 <div id="error">
   <span class="error-text"></span>
   <span class="error-close">&#10005;</span>
@@ -7,7 +8,7 @@
 <h1>Upload file</h1>
 <%= form_tag({action: :save_input_file}, multipart: true) do %>
   <%= file_field_tag 'input_file' %>
-  <%= submit_tag "Upload fiel" %>
+  <%= submit_tag "Upload file" %>
 <% end %>
 <% if user_signed_in? %>
   <h1>Download file</h1>

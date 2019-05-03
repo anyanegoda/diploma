@@ -1,0 +1,45 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  subject_name: 1
+  course: MyString
+  semester: 1
+  training_direction: MyString
+  group_quantity: MyString
+  student_b_quantity: 1
+  student_c_quantity: 1
+  lectures: 1.5
+  practical_classes: 1.5
+  laboratory_classes: 1.5
+  modular_control_b: 1.5
+  consultation_semester_b: 1.5
+  consultation_exam_b: 1.5
+  test_b: 1.5
+  exam_b: 1.5
+  modular_control_c: 1.5
+  consultation_semester_c: 1.5
+  consultation_exam_c: 1.5
+  test_c: 1.5
+  exam_c: 1.5
+
+two:
+  subject_name: 1
+  course: MyString
+  semester: 1
+  training_direction: MyString
+  group_quantity: MyString
+  student_b_quantity: 1
+  student_c_quantity: 1
+  lectures: 1.5
+  practical_classes: 1.5
+  laboratory_classes: 1.5
+  modular_control_b: 1.5
+  consultation_semester_b: 1.5
+  consultation_exam_b: 1.5
+  test_b: 1.5
+  exam_b: 1.5
+  modular_control_c: 1.5
+  consultation_semester_c: 1.5
+  consultation_exam_c: 1.5
+  test_c: 1.5
+  exam_c: 1.5

@@ -1,4 +1,4 @@
-$ ->
+$(document).on 'turbolinks:load', ->
   $('.subject-select-add').on 'click', ->
     #subject_id = $('#select-subject :selected').data 'value'
     subject_id = $('#select-subject').val()

@@ -8,11 +8,9 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-    <b><%= link_to 'ПРЕДМЕТЫ', subjects_path %></b>
-    <b><%= link_to 'УЧЕБНО-МЕТОДИЧЕСКАЯ РАБОТА', educational_and_methodical_works_path, :method=> :put %></b>
-    <b><%= link_to 'НАУЧНО-ИССЛЕДОВАТЕЛЬСКАЯ РАБОТА', research_works_path %></b>
-    <b><%= link_to 'ОРГАНИЗАЦИОННО-МЕТОДИЧЕСКАЯ РАБОТА', organizational_and_methodical_works_path %></b>
-    <b><%= link_to 'ВОСПИТАТЕЛЬНАЯ РАБОТА', educational_works_path %></b>
+    <b><%= link_to 'ПРЕДМЕТЫ - ОЧНАЯ ФОРМА ОБУЧЕНИЯ', subjects_path %></b>
+    <b><%= link_to 'ПРЕДМЕТЫ - ЗАОЧНАЯ ФОРМА ОБУЧЕНИЯ', extramular_subjects_path %></b>
+    <b><%= link_to 'ВНЕУЧЕБНАЯ РАБОТА', works_path %></b>
     <br>
     <% if user_signed_in? %>
       <span>Здравствуйте, <%= current_user.email %></span>

@@ -1,0 +1,117 @@
+<%= form_with(model: extramular_subject, local: true) do |form| %>
+  <% if extramular_subject.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(extramular_subject.errors.count, "error") %> prohibited this extramular_subject from being saved:</h2>
+
+      <ul>
+      <% extramular_subject.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :subject_name %>
+    <%= form.number_field :subject_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :course %>
+    <%= form.text_field :course %>
+  </div>
+
+  <div class="field">
+    <%= form.label :semester %>
+    <%= form.number_field :semester %>
+  </div>
+
+  <div class="field">
+    <%= form.label :training_direction %>
+    <%= form.text_field :training_direction %>
+  </div>
+
+  <div class="field">
+    <%= form.label :group_quantity %>
+    <%= form.text_field :group_quantity %>
+  </div>
+
+  <div class="field">
+    <%= form.label :student_b_quantity %>
+    <%= form.number_field :student_b_quantity %>
+  </div>
+
+  <div class="field">
+    <%= form.label :student_c_quantity %>
+    <%= form.number_field :student_c_quantity %>
+  </div>
+
+  <div class="field">
+    <%= form.label :lectures %>
+    <%= form.text_field :lectures %>
+  </div>
+
+  <div class="field">
+    <%= form.label :practical_classes %>
+    <%= form.text_field :practical_classes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :laboratory_classes %>
+    <%= form.text_field :laboratory_classes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :modular_control_b %>
+    <%= form.text_field :modular_control_b %>
+  </div>
+
+  <div class="field">
+    <%= form.label :consultation_semester_b %>
+    <%= form.text_field :consultation_semester_b %>
+  </div>
+
+  <div class="field">
+    <%= form.label :consultation_exam_b %>
+    <%= form.text_field :consultation_exam_b %>
+  </div>
+
+  <div class="field">
+    <%= form.label :test_b %>
+    <%= form.text_field :test_b %>
+  </div>
+
+  <div class="field">
+    <%= form.label :exam_b %>
+    <%= form.text_field :exam_b %>
+  </div>
+
+  <div class="field">
+    <%= form.label :modular_control_c %>
+    <%= form.text_field :modular_control_c %>
+  </div>
+
+  <div class="field">
+    <%= form.label :consultation_semester_c %>
+    <%= form.text_field :consultation_semester_c %>
+  </div>
+
+  <div class="field">
+    <%= form.label :consultation_exam_c %>
+    <%= form.text_field :consultation_exam_c %>
+  </div>
+
+  <div class="field">
+    <%= form.label :test_c %>
+    <%= form.text_field :test_c %>
+  </div>
+
+  <div class="field">
+    <%= form.label :exam_c %>
+    <%= form.text_field :exam_c %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -10,25 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_24_165721) do
+ActiveRecord::Schema.define(version: 2019_05_01_120044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "educational_and_methodical_works", force: :cascade do |t|
-    t.string "work_name"
-    t.float "time_rate"
-    t.string "note"
+  create_table "extramular_subjects", force: :cascade do |t|
+    t.string "subject_name"
+    t.string "course"
+    t.integer "semester"
+    t.string "training_direction"
+    t.string "group_quantity"
+    t.integer "student_b_quantity"
+    t.integer "student_c_quantity"
+    t.float "lectures_b"
+    t.float "practical_classes_b"
+    t.float "laboratory_classes_b"
+    t.float "consultation_semester_b"
+    t.float "consultation_exam_b"
+    t.float "test_b"
+    t.float "exam_b"
+    t.float "consultation_semester_c"
+    t.float "consultation_exam_c"
+    t.float "test_c"
+    t.float "exam_c"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "educational_works", force: :cascade do |t|
-    t.string "work_name"
-    t.float "time_rate"
-    t.string "note"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.float "lectures_c"
+    t.float "practical_classes_c"
+    t.float "laboratory_classes_c"
+    t.index ["user_id"], name: "index_extramular_subjects_on_user_id"
   end
 
   create_table "files_excels", force: :cascade do |t|
@@ -42,22 +54,6 @@ ActiveRecord::Schema.define(version: 2019_04_24_165721) do
 
   create_table "name_works", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "organizational_and_methodical_works", force: :cascade do |t|
-    t.string "work_name"
-    t.float "time_rate"
-    t.string "note"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "research_works", force: :cascade do |t|
-    t.string "work_name"
-    t.float "time_rate"
-    t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -129,6 +125,7 @@ ActiveRecord::Schema.define(version: 2019_04_24_165721) do
     t.index ["name_work_id"], name: "index_works_on_name_work_id"
   end
 
+  add_foreign_key "extramular_subjects", "users"
   add_foreign_key "files_excels", "users"
   add_foreign_key "subjects", "users"
   add_foreign_key "works", "name_works"

@@ -1,0 +1,73 @@
+<p id="notice"><%= notice %></p>
+
+<div id="error">
+  <span class="error-text"></span>
+  <span class="error-close">&#10005;</span>
+</div>
+
+<%= button_to 'Insert subjects', insert_to_bd_extramular_path %>
+<%= button_to "Очистить таблицу Предметы - заочка", destroy_all_extramular_subjects_path %>
+
+<h1>Extramular Subjects</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Subject name</th>
+      <th>Course</th>
+      <th>Semester</th>
+      <th>Training direction</th>
+      <th>Student b quantity</th>
+      <th>Student c quantity</th>
+      <th>Lectures b</th>
+      <th>Lectures c</th>
+      <th>Practical classes b</th>
+      <th>Practical classes c</th>
+      <th>Laboratory classes b</th>
+      <th>Laboratory classes c</th>
+      <th>Consultation semester b</th>
+      <th>Consultation exam b</th>
+      <th>Test b</th>
+      <th>Exam b</th>
+      <th>Consultation semester c</th>
+      <th>Consultation exam c</th>
+      <th>Test c</th>
+      <th>Exam c</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @extramular_subjects.each do |extramular_subject| %>
+      <tr>
+        <td><%= extramular_subject.subject_name %></td>
+        <td><%= extramular_subject.course %></td>
+        <td><%= extramular_subject.semester %></td>
+        <td><%= extramular_subject.training_direction %></td>
+        <td><%= extramular_subject.student_b_quantity %></td>
+        <td><%= extramular_subject.student_c_quantity %></td>
+        <td><%= extramular_subject.lectures_b %></td>
+        <td><%= extramular_subject.lectures_c %></td>
+        <td><%= extramular_subject.practical_classes_b %></td>
+        <td><%= extramular_subject.practical_classes_c %></td>
+        <td><%= extramular_subject.laboratory_classes_b %></td>
+        <td><%= extramular_subject.laboratory_classes_c %></td>
+        <td><%= extramular_subject.consultation_semester_b %></td>
+        <td><%= extramular_subject.consultation_exam_b %></td>
+        <td><%= extramular_subject.test_b %></td>
+        <td><%= extramular_subject.exam_b %></td>
+        <td><%= extramular_subject.consultation_semester_c %></td>
+        <td><%= extramular_subject.consultation_exam_c %></td>
+        <td><%= extramular_subject.test_c %></td>
+        <td><%= extramular_subject.exam_c %></td>
+        <td><%= link_to 'Show', extramular_subject %></td>
+        <td><%= link_to 'Edit', edit_extramular_subject_path(extramular_subject) %></td>
+        <td><%= link_to 'Destroy', extramular_subject, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Extramular Subject', new_extramular_subject_path %>

@@ -15,7 +15,7 @@ class SubjectsController < ApplicationController
     @temp.input_file = params[:input_file]
     @temp.user_id = current_user.id
     @temp.save
-
+    redirect_to root_path
   end
 
   def insert_user_id
@@ -43,14 +43,14 @@ class SubjectsController < ApplicationController
     # end
     @xls = Roo::Spreadsheet.open(current_user.files_excels.last.input_file, {:expand_merged_ranges => true})
 
-    last_row = @xls.sheet(0).last_row
-    last_column = @xls.sheet(0).last_column
+    last_row = @xls.sheet('КТ').last_row
+    last_column = @xls.sheet('КТ').last_column
     if !last_row.nil?
-      for row in 1..10#last_row
-        col_contingent = @xls.sheet(0).row(row).find_index('Контингент')
-        col_plan = @xls.sheet(0).row(row).find_index('Предусмотрено рабочим учебным планом')
-        col_hours_b = @xls.sheet(0).row(row).find_index('Расчет часов (бюджет)')
-        col_hours_d = @xls.sheet(0).row(row).find_index('Расчет часов (договор)')
+      for row in 1..last_row
+        col_contingent = @xls.sheet('КТ').row(row).find_index('Контингент')
+        col_plan = @xls.sheet('КТ').row(row).find_index('Предусмотрено рабочим учебным планом')
+        col_hours_b = @xls.sheet('КТ').row(row).find_index('Расчет часов (бюджет)')
+        col_hours_d = @xls.sheet('КТ').row(row).find_index('Расчет часов (договор)')
 
         if col_contingent != nil
           contingent_row = row
@@ -69,30 +69,14 @@ class SubjectsController < ApplicationController
           hours_d_col = col_hours_d + 1
           hours_d_row = row
         end
-
-        # case   # object
-        # when col_contingent != nil
-        #   contingent_row = row
-        #   contingent_b_col = col_contingent + 1
-        #   contingent_d_col = col_contingent + 2
-        # when col_plan != nil
-        #   plan_row = row
-        #   plan_col = col_plan + 1
-        # when col_hours_b != nil
-        #   hours_b_col = col_hours_b + 1
-        #   hours_b_row = row
-        # when col_hours_d != nil
-        #   hours_d_col = col_hours_d + 1
-        #   hours_d_row = row
-        # end
       end
     else
       puts 'Seems no data in sheet '
     end
     for col in plan_col..hours_b_col-1
-      row_lectures = @xls.sheet(0).column(col).find_index('Лекций')
-      row_practical_classes = @xls.sheet(0).column(col).find_index('Практических занятий')
-      row_laboratory_classes = @xls.sheet(0).column(col).find_index('Лабораторных занятий')
+      row_lectures = @xls.sheet('КТ').column(col).find_index('Лекций')
+      row_practical_classes = @xls.sheet('КТ').column(col).find_index('Практических занятий')
+      row_laboratory_classes = @xls.sheet('КТ').column(col).find_index('Лабораторных занятий')
       if row_lectures != nil
         lectures_row = row_lectures + 1
         lectures_col = col
@@ -108,18 +92,18 @@ class SubjectsController < ApplicationController
     end
 
     for col in hours_b_col..hours_d_col-1
-      row_modular_control_b = @xls.sheet(0).column(col).find_index('МК')
-      row_consultation_b = @xls.sheet(0).column(col).find_index('Консультации')
-      row_test_b = @xls.sheet(0).column(col).find_index('Зачет')
-      row_exam_b = @xls.sheet(0).column(col).find_index('Экзамен')
+      row_modular_control_b = @xls.sheet('КТ').column(col).find_index('МК')
+      row_consultation_b = @xls.sheet('КТ').column(col).find_index('Консультации')
+      row_test_b = @xls.sheet('КТ').column(col).find_index('Зачет')
+      row_exam_b = @xls.sheet('КТ').column(col).find_index('Экзамен')
       if row_modular_control_b != nil
         modular_control_b_row = row_modular_control_b + 1
         modular_control_b_col = col
       end
       if row_consultation_b != nil
         consultation_b_row = row_consultation_b + 1
-        consultation_semester_b_col = col
-        consultation_exam_b_col = col + 1
+        consultation_semester_b_col = col - 1
+        consultation_exam_b_col = col
       end
       if row_test_b != nil
         test_b_row = row_test_b + 1
@@ -132,30 +116,30 @@ class SubjectsController < ApplicationController
     end
 
     for col in hours_d_col..last_column
-      row_modular_control_c = @xls.sheet(0).column(col).find_index('МК')
-      row_consultation_c = @xls.sheet(0).column(col).find_index('Консультации')
-      row_test_c = @xls.sheet(0).column(col).find_index('Зачет')
-      row_exam_c = @xls.sheet(0).column(col).find_index('Экзамен')
+      row_modular_control_c = @xls.sheet('КТ').column(col).find_index('МК')
+      row_consultation_c = @xls.sheet('КТ').column(col).find_index('Консультации')
+      row_test_c = @xls.sheet('КТ').column(col).find_index('Зачет')
+      row_exam_c = @xls.sheet('КТ').column(col).find_index('Экзамен')
       if row_modular_control_c != nil
-        modular_control_c_row = row_modular_control_c + 1
+        modular_control_c_row = row_modular_control_c + 2
         modular_control_c_col = col
       end
       if row_consultation_c != nil
-        consultation_c_row = row_consultation_c + 1
-        consultation_semester_c_col = col
-        consultation_exam_c_col = col + 1
+        consultation_c_row = row_consultation_c + 2
+        consultation_semester_c_col = col - 1
+        consultation_exam_c_col = col
       end
       if row_test_c != nil
-        test_c_row = row_test_c + 1
+        test_c_row = row_test_c + 2
         test_c_col = col
       end
       if row_exam_c != nil
-        exam_c_row = row_exam_c + 1
+        exam_c_row = row_exam_c + 2
         exam_c_col = col
       end
     end
 
-    @xls.sheet(0).parse(name: 'Дисциплина', course: 'Курс', semester: 'Семестр', training_direction: 'Направление подготовки', group_quantity: 'Количество подгрупп', clean:true).each do |value|
+    @xls.sheet('КТ').parse(name: 'Дисциплина', course: 'Курс', semester: 'Семестр', training_direction: 'Направление подготовки', group_quantity: 'Количество подгрупп', clean:true).each do |value|
       contingent_row += 1
       lectures_row += 1
       practical_classes_row += 1
@@ -168,9 +152,8 @@ class SubjectsController < ApplicationController
       consultation_c_row += 1
       test_c_row += 1
       exam_c_row += 1
-      if value[:name] != nil
+      if value[:name] != nil && value[:name] != 'Дисциплина'
         @item = Subject.new
-        #binding.pry
         @item.subject_name = value[:name]
         unless value[:course].class == String
           @item.course = value[:course].ceil
@@ -180,21 +163,21 @@ class SubjectsController < ApplicationController
         @item.semester = value[:semester]
         @item.training_direction = value[:training_direction]
         @item.group_quantity = value[:group_quantity].ceil
-        @item.student_b_quantity = @xls.sheet(0).cell(contingent_row, contingent_b_col)
-        @item.student_c_quantity = @xls.sheet(0).cell(contingent_row, contingent_d_col)
-        @item.lectures = @xls.sheet(0).cell(lectures_row, lectures_col)
-        @item.practical_classes = @xls.sheet(0).cell(practical_classes_row, practical_classes_col)
-        @item.laboratory_classes = @xls.sheet(0).cell(laboratory_classes_row, laboratory_classes_col)
-        @item.modular_control_b = @xls.sheet(0).cell(modular_control_b_row, modular_control_b_col)
-        @item.consultation_semester_b = @xls.sheet(0).cell(consultation_b_row, consultation_semester_b_col)
-        @item.consultation_exam_b = @xls.sheet(0).cell(consultation_b_row, consultation_exam_b_col)
-        @item.test_b = @xls.sheet(0).cell(test_b_row, test_b_col)
-        @item.exam_b = @xls.sheet(0).cell(exam_b_row, exam_b_col).round(1)
-        @item.modular_control_c = @xls.sheet(0).cell(modular_control_c_row, modular_control_c_col).round(1)
-        @item.consultation_semester_c = @xls.sheet(0).cell(consultation_c_row, consultation_semester_c_col)
-        @item.consultation_exam_c = @xls.sheet(0).cell(consultation_c_row, consultation_exam_c_col)
-        @item.test_c = @xls.sheet(0).cell(test_c_row, test_c_col)
-        @item.exam_c = @xls.sheet(0).cell(exam_c_row, exam_c_col)
+        @item.student_b_quantity = @xls.sheet('КТ').cell(contingent_row, contingent_b_col)
+        @item.student_c_quantity = @xls.sheet('КТ').cell(contingent_row, contingent_d_col)
+        @item.lectures = @xls.sheet('КТ').cell(lectures_row, lectures_col)
+        @item.practical_classes = @xls.sheet('КТ').cell(practical_classes_row, practical_classes_col)
+        @item.laboratory_classes = @xls.sheet('КТ').cell(laboratory_classes_row, laboratory_classes_col)
+        @item.modular_control_b = @xls.sheet('КТ').cell(modular_control_b_row, modular_control_b_col)
+        @item.consultation_semester_b = @xls.sheet('КТ').cell(consultation_b_row, consultation_semester_b_col)
+        @item.consultation_exam_b = @xls.sheet('КТ').cell(consultation_b_row, consultation_exam_b_col)
+        @item.test_b = @xls.sheet('КТ').cell(test_b_row, test_b_col)
+        @item.exam_b = @xls.sheet('КТ').cell(exam_b_row, exam_b_col).round(1)
+        @item.modular_control_c = @xls.sheet('КТ').cell(modular_control_c_row, modular_control_c_col).round(1)
+        @item.consultation_semester_c = @xls.sheet('КТ').cell(consultation_c_row, consultation_semester_c_col)
+        @item.consultation_exam_c = @xls.sheet('КТ').cell(consultation_c_row, consultation_exam_c_col)
+        @item.test_c = @xls.sheet('КТ').cell(test_c_row, test_c_col)
+        @item.exam_c = @xls.sheet('КТ').cell(exam_c_row, exam_c_col)
         @item.save
      end
     end

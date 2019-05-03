@@ -1,0 +1,2 @@
+module ExtramularSubjectsHelper
+end
