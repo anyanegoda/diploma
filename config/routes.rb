@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   # end
   # get 'insert_to_bd', to: 'subjects/insert_to_bd'
   devise_for :users
+  resources :users, :only => [:show, :index]
 
   post '/insert_to_bd_extramular', to: 'extramular_subjects#insert_to_bd_extramular', as: :insert_to_bd_extramular
   post '/insert_to_bd', to: 'subjects#insert_to_bd', as: :insert_to_bd
@@ -25,7 +26,7 @@ Rails.application.routes.draw do
   post '/add_educational_work', to: 'works#add_educational_work', as: :add_educational_work
   post '/add_research_work', to: 'works#add_research_work', as: :add_research_work
   post '/add_organizational_and_methodical_work', to: 'works#add_organizational_and_methodical_work', as: :add_organizational_and_methodical_work
-
+  post '/remove_subject', to: 'subject/remove_subject', as: :remove_subject
 
 
   root to: 'subjects#index'

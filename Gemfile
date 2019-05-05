@@ -31,6 +31,7 @@ gem "roo", "~> 2.7.0"
 gem 'roo-xls'
 
 gem 'devise'
+gem 'haml'
 gem 'writeexcel'
 gem 'carrierwave', '~> 1.0'
 gem 'mini_magick'

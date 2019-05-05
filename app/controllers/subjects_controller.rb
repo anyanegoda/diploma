@@ -12,6 +12,10 @@ class SubjectsController < ApplicationController
     @subjects = Subject.all
   end
 
+  def remove_subject
+    
+  end
+
   def save_input_file
     @temp = FilesExcel.new
     @temp.input_file = params[:input_file]

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_subject, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def add_educational_and_methodical_works
     @temp = User.find(current_user.id)
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user)  #.permit(:name, :surname, :username, :email, :password, :password_confirmation, :remember_me, :avatar, :avatar_cache, :avatar)
+    params.require(:user)  
   end
 
 end

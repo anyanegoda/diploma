@@ -1,0 +1,15 @@
+%br/
+= image_tag(@user.avatar.thumb.url, alt: 'Аватар') if @user.avatar?
+%br/
+= @user.name
+= @user.surname
+%br/
+- if policy(@user).edit?
+  = link_to 'Редактировать профиль',  edit_user_registration_path(@user)
+- if policy(@user).destroy?
+  = link_to 'Удалить профиль', @user, method: :delete, data: { confirm: 'Вы уверены?' }
+%br/
+- @user.subjects.each do |subject|
+  .subject
+    = subject.subject_name
+    = = button_to "Убрать предмет из списка", remove_subject_path
