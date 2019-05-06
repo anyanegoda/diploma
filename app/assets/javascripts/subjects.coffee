@@ -1,13 +1,26 @@
 $(document).on 'turbolinks:load', ->
   $('.subject-select-add').on 'click', ->
     #subject_id = $('#select-subject :selected').data 'value'
-    subject_id = $('#select-subject').val()
+    # subject_id = $('#select-subject').val()
+    # $.ajax
+    #   url: "/insert_user_id"
+    #   type: "POST"
+    #   data: { subject_id: subject_id }
+    #   success: (data) ->
+    #     $("#select-subject option[value="+data+"]").remove()
+    #   error: (data) ->
+    #     text_error = "Проблемы с записью в БД. Перезагрузите страницу и попробуйте снова."
+    #     $('#error .error-text').html(text_error)
+    #     $('#error').addClass('visible')
+    subject_id = $(this).parents('.add-subject').data('sub-id')
+    add = $(this).parents('.add-subject')
+    debugger
     $.ajax
       url: "/insert_user_id"
       type: "POST"
       data: { subject_id: subject_id }
       success: (data) ->
-        $("#select-subject option[value="+data+"]").remove()
+        add.parents("tr").find('.user-initials').text data
       error: (data) ->
         text_error = "Проблемы с записью в БД. Перезагрузите страницу и попробуйте снова."
         $('#error .error-text').html(text_error)

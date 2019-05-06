@@ -7,8 +7,10 @@ class ExtramularSubjectsController < ApplicationController
     @subject_id = params[:subject_id]
     @temp = ExtramularSubject.find(@subject_id)
     @temp.user_id = current_user.id
+    @user_id = @temp.user_id
     @temp.save
-    render json: @subject_id
+    @surname = "#{User.find(@user_id).surname} #{User.find(@user_id).name.first}. #{User.find(@user_id).patronymic.first}."
+    render html: @surname
   end
 
   def change_ext_user_id
