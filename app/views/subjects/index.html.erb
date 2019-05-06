@@ -5,12 +5,15 @@
   <span class="error-close">&#10005;</span>
 </div>
 
-<h1>Upload file</h1>
-<%= form_tag({action: :save_input_file}, multipart: true) do %>
-  <%= file_field_tag 'input_file' %>
-  <%= submit_tag "Upload file" %>
-<% end %>
 <% if user_signed_in? %>
+  <% if policy(@subjects).save_input_file? %>
+    <h1>Upload file</h1>
+    <%= form_tag({action: :save_input_file}, multipart: true) do %>
+      <%= file_field_tag 'input_file' %>
+      <%= submit_tag "Upload file" %>
+    <% end %>
+  <% end %>
+
   <h1>Download file</h1>
   <%= button_to "Очистить историю", destroy_all_output_files_path %>
   <% current_user.files_excels.each do |file| %>
@@ -26,23 +29,9 @@
       <th>Subject name</th>
       <th>Course</th>
       <th>Semester</th>
-      <!-- <th>Training direction</th>
-      <th>Group_quantity</th>
-      <th>student_b_quantity</th>
-      <th>student_c_quantity</th>
-      <th>lectures</th>
-      <th>practical_classes</th>
-      <th>laboratory_classes</th>
-      <th>modular_control_b</th>
-      <th>consultation_semester_b</th>
-      <th>consultation_exam_b</th>
-      <th>test_b</th>
-      <th>exam_b</th>
-      <th>modular_control_c</th>
-      <th>consultation_semester_c</th>
-      <th>consultation_exam_c</th>
-      <th>test_c</th>
-      <th>exam_c</th> -->
+      <th>Направление подготовки</th>
+      <th>Преподаватель</th>
+      <th></th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -57,42 +46,46 @@
     </select>
 
     <%= button_tag "Add", class: "subject-select-add" %>
-    <%= button_to "Очистить таблицу Предметы", destroy_all_subjects_path %>
 
     <% @subjects.each do |subject| %>
       <tr>
         <td><%= subject.subject_name %></td>
         <td><%= subject.course %></td>
         <td><%= subject.semester %></td>
-        <!-- <td><%= subject.training_direction %></td>
-        <td><%= subject.group_quantity %></td>
-        <td><%= subject.student_b_quantity %></td>
-        <td><%= subject.student_c_quantity %></td>
-        <td><%= subject.lectures%></td>
-        <td><%= subject.practical_classes %></td>
-        <td><%= subject.laboratory_classes %></td>
-        <td><%= subject.modular_control_b %></td>
-        <td><%= subject.consultation_semester_b %></td>
-        <td><%= subject.consultation_exam_b %></td>
-        <td><%= subject.test_b %></td>
-        <td><%= subject.exam_b %></td>
-        <td><%= subject.modular_control_c %></td>
-        <td><%= subject.consultation_semester_c %></td>
-        <td><%= subject.consultation_exam_c %></td>
-        <td><%= subject.test_c %></td>
-        <td><%= subject.exam_c %></td> -->
+        <td><%= subject.training_direction %></td>
+        <td class="user-initials">
+          <%= "#{subject.user.surname} #{subject.user.name.first}. #{subject.user.patronymic.first}." if subject.user != nil%>
+        </td>
+        <% if policy(subject).change_user_id? %>
+          <td class="change-user">
+            <select name="user-id" id="select-user">
+              <% @users = User.all %>
+              <%= @users.each do |user| %>
+                <option value="<%= user.id %>" data-user-id="<%= user.id %>" data-subject-id="<%= subject.id %>"><%= "#{user.surname} #{user.name.first}. #{user.patronymic.first}." %></option>
+              <% end %>
+            </select>
+            <%= button_tag "Изменить", class: "user-select-change" %>
+          </td>
+        <% end %>
         <td><%= link_to 'Show', subject %></td>
-        <td><%= link_to 'Edit', edit_subject_path(subject) %></td>
-        <td><%= link_to 'Destroy', subject, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if policy(subject).edit? %>
+          <td><%= link_to 'Edit', edit_subject_path(subject) %></td>
+        <% end %>
+        <% if policy(subject).destroy? %>
+        <td><%= link_to 'Удалить', subject, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+        <% end %>
       </tr>
-    <% end %>
 
+    <% end %>
+    <% if policy(@subjects).destroy_all_subjects? %>
+      <%= button_to "Очистить таблицу Предметы", destroy_all_subjects_path %>
+    <% end %>
+    <% if policy(@subjects).insert_to_bd? %>
+      <%= button_to 'Insert subjects', insert_to_bd_path %>
+    <% end %>
   </tbody>
 </table>
 
 <br>
 
 <%= button_to 'Create excel', create_excel_path, class: 'button'  %>
-<%= button_to 'Insert subjects', insert_to_bd_path %>
-
-<%= link_to 'New Subject', new_subject_path %>

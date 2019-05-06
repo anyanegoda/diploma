@@ -100,5 +100,7 @@
   <%= @extramular_subject.exam_c %>
 </p>
 
-<%= link_to 'Edit', edit_extramular_subject_path(@extramular_subject) %> |
+<% if policy(@extramular_subject).edit? %>
+  <%= link_to 'Edit', edit_extramular_subject_path(@extramular_subject) %> |
+<% end %>
 <%= link_to 'Back', extramular_subjects_path %>

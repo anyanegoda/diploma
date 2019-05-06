@@ -13,7 +13,11 @@ class SubjectsController < ApplicationController
   end
 
   def remove_subject
-    
+    @subject_id = params[:subject_id]
+    @temp = Subject.find(@subject_id)
+    @temp.user_id = nil
+    @temp.save
+    # render json: @subject_id
   end
 
   def save_input_file
@@ -30,6 +34,16 @@ class SubjectsController < ApplicationController
     @temp.user_id = current_user.id
     @temp.save
     render json: @subject_id
+  end
+
+  def change_user_id
+    @subject_id = params[:change_user][:subject_id]
+    @user_id = params[:change_user][:user_id]
+    @temp = Subject.find(@subject_id)
+    @temp.user_id = @user_id
+    @temp.save
+    @surname = "#{User.find(@user_id).surname} #{User.find(@user_id).name.first}. #{User.find(@user_id).patronymic.first}."
+    render html: @surname
   end
 
   def destroy_all_subjects
@@ -1392,6 +1406,11 @@ class SubjectsController < ApplicationController
   end
 
   private
+
+    def authorize_subject
+      authorize @subject
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_subject
       @subject = Subject.find(params[:id])

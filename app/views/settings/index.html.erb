@@ -84,14 +84,21 @@
         <td><%= setting.contract_hours_extramural %></td>
         <td><%= setting.department %></td>
         <td><%= setting.years %></td>
-        <td><%= link_to 'Show', setting %></td>
-        <td><%= link_to 'Edit', edit_setting_path(setting) %></td>
-        <td><%= link_to 'Destroy', setting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if policy(setting).show? %>
+          <td><%= link_to 'Show', setting %></td>
+        <% end %>
+        <% if policy(setting).edit? %>
+          <td><%= link_to 'Edit', edit_setting_path(setting) %></td>
+        <% end %>
+        <% if policy(setting).destroy? %>
+          <td><%= link_to 'Destroy', setting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Setting', new_setting_path %>
+<% if policy(setting).create? %>
+  <%= link_to 'New Setting', new_setting_path %>
+<% end %>

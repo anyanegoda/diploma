@@ -7,6 +7,9 @@
 
 <h1>Works</h1>
 
+<% if policy(@name_works).index? %>
+  <h2><%= link_to 'Просмотреть виды работ', name_works_path %></h2>
+<% end %>
 <div class="tab">
   <button type='button' class="tablinks" data-work-type='work-em'>УЧЕБНО-МЕТОДИЧЕСКАЯ РАБОТА</button>
   <button type='button' class="tablinks" data-work-type='work-r'>НАУЧНО-ИССЛЕДОВАТЕЛЬСКАЯ РАБОТА</button>
@@ -24,7 +27,7 @@
         <th>Вид работы</th>
         <th>Количество</th>
         <th>Итого</th>
-        <th colspan="3"></th>
+        <th colspan="2"></th>
       </tr>
     </thead>
 
@@ -38,9 +41,12 @@
             <td><%= NameWork.find(work.name_work_id).name %></td>
             <td><input id="quantity-em" class="quantity-em" name="quantity-em" type="number" min="0" data-time="<%= work.time_rate %>" data-name-input="<%= work.work_title %>"/></td>
             <td><p class="new-quantity-em"></p></td>
-            <td><%= link_to 'Show', work %></td>
-            <td><%= link_to 'Edit', edit_work_path(work) %></td>
+            <% if policy(work).edit? %>
+              <td><%= link_to 'Edit', edit_work_path(work) %></td>
+            <% end %>
+            <% if policy(work).destroy? %>
             <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% end %>
           </tr>
         <% end %>
       <% end %>
@@ -59,7 +65,7 @@
         <th>Вид работы</th>
         <th>Количество</th>
         <th>Итого</th>
-        <th colspan="3"></th>
+        <th colspan="2"></th>
       </tr>
     </thead>
 
@@ -73,9 +79,12 @@
             <td><%= NameWork.find(work.name_work_id).name %></td>
             <td><input id="quantity-r" class="quantity-r" name="quantity-r" type="number" min="0" data-time="<%= work.time_rate %>" data-name-input="<%= work.work_title %>"/></td>
             <td><p class="new-quantity-r"></p></td>
-            <td><%= link_to 'Show', work %></td>
-            <td><%= link_to 'Edit', edit_work_path(work) %></td>
+            <% if policy(work).edit? %>
+              <td><%= link_to 'Edit', edit_work_path(work) %></td>
+            <% end %>
+            <% if policy(work).destroy? %>
             <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% end %>
           </tr>
         <% end %>
       <% end %>
@@ -94,7 +103,7 @@
         <th>Вид работы</th>
         <th>Количество</th>
         <th>Итого</th>
-        <th colspan="3"></th>
+        <th colspan="2"></th>
       </tr>
     </thead>
 
@@ -108,9 +117,12 @@
             <td><%= NameWork.find(work.name_work_id).name %></td>
             <td><input id="quantity-om" class="quantity-om" name="quantity-om" type="number" min="0" data-time="<%= work.time_rate %>" data-name-input="<%= work.work_title %>"/></td>
             <td><p class="new-quantity-om"></p></td>
-            <td><%= link_to 'Show', work %></td>
-            <td><%= link_to 'Edit', edit_work_path(work) %></td>
-            <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% if policy(work).edit? %>
+              <td><%= link_to 'Edit', edit_work_path(work) %></td>
+            <% end %>
+            <% if policy(work).destroy? %>
+              <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% end %>
           </tr>
         <% end %>
       <% end %>
@@ -129,7 +141,7 @@
         <th>Вид работы</th>
         <th>Количество</th>
         <th>Итого</th>
-        <th colspan="3"></th>
+        <th colspan="2"></th>
       </tr>
     </thead>
 
@@ -143,9 +155,12 @@
             <td><%= NameWork.find(work.name_work_id).name %></td>
             <td><input id="quantity-e" class="quantity-e" name="quantity-e" type="number" min="0" data-time="<%= work.time_rate %>" data-name-input="<%= work.work_title %>"/></td>
             <td><p class="new-quantity-e"></p></td>
-            <td><%= link_to 'Show', work %></td>
-            <td><%= link_to 'Edit', edit_work_path(work) %></td>
-            <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% if policy(work).edit? %>
+              <td><%= link_to 'Edit', edit_work_path(work) %></td>
+            <% end %>
+            <% if policy(work).destroy? %>
+              <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% end %>
           </tr>
         <% end %>
       <% end %>
@@ -154,8 +169,7 @@
   <%= button_tag "Сохранить изменения", class: "add-quantity-e" %>
 </div>
 
-
-
 <br>
-
-<%= link_to 'New Work', new_work_path %>
+<% if policy(@works).create? %>
+  <%= link_to 'New Work', new_work_path %>
+<% end %>

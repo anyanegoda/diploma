@@ -2,4 +2,6 @@
 
 <%= render 'form', setting: @setting %>
 
-<%= link_to 'Back', settings_path %>
+<% if policy(@setting).index? %>
+  <%= link_to 'Back', settings_path %>
+<% end %>

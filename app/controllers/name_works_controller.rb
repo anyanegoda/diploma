@@ -8,10 +8,6 @@ class NameWorksController < ApplicationController
     respond_with(@name_works)
   end
 
-  def show
-    respond_with(@name_work)
-  end
-
   def new
     @name_work = NameWork.new
     respond_with(@name_work)

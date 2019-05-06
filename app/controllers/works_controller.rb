@@ -32,6 +32,7 @@ class WorksController < ApplicationController
 
   def index
     @works = Work.all
+    @name_works = NameWork.all
     respond_with(@works)
   end
 
@@ -64,6 +65,10 @@ class WorksController < ApplicationController
   end
 
   private
+    def authorize_work
+      authorize @work
+    end
+
     def set_work
       @work = Work.find(params[:id])
     end

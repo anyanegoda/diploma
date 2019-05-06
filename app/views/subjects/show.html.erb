@@ -20,5 +20,7 @@
   <%= @subject.training_direction %>
 </p>
 
-<%= link_to 'Edit', edit_subject_path(@subject) %> |
+<% if policy(@subject).edit? %>
+  <%= link_to 'Edit', edit_subject_path(@subject) %> |
+<% end %>
 <%= link_to 'Back', subjects_path %>

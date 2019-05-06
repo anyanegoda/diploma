@@ -14,14 +14,18 @@
     <% @name_works.each do |name_work| %>
       <tr>
         <td><%= name_work.name %></td>
-        <td><%= link_to 'Show', name_work %></td>
-        <td><%= link_to 'Edit', edit_name_work_path(name_work) %></td>
-        <td><%= link_to 'Destroy', name_work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if policy(name_work).edit? %>
+          <td><%= link_to 'Edit', edit_name_work_path(name_work) %></td>
+        <% end %>
+        <% if policy(name_work).destroy? %>
+          <td><%= link_to 'Destroy', name_work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Name Work', new_name_work_path %>
+<% if policy(@name_works).create? %>
+  <%= link_to 'New Name Work', new_name_work_path %>
+<% end %>

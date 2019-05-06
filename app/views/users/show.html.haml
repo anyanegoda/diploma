@@ -1,15 +1,33 @@
+#error
+  %span.error-text
+  %span.error-close ✕
 %br/
 = image_tag(@user.avatar.thumb.url, alt: 'Аватар') if @user.avatar?
 %br/
 = @user.name
 = @user.surname
+= @user.id
+= @user.admin
 %br/
 - if policy(@user).edit?
   = link_to 'Редактировать профиль',  edit_user_registration_path(@user)
 - if policy(@user).destroy?
   = link_to 'Удалить профиль', @user, method: :delete, data: { confirm: 'Вы уверены?' }
+- if @user.admin
+  = link_to 'Удалить права администратора', users_revoke_admin_path(id: @user.id)
+- else
+  = link_to 'Дать права администратора', users_make_admin_path(:id => @user.id)
 %br/
+%h2 Очная форма обучения
 - @user.subjects.each do |subject|
   .subject
-    = subject.subject_name
-    = = button_to "Убрать предмет из списка", remove_subject_path
+    %p.subject-id{ "data-subject-id" => "#{subject.id}"}
+      = subject.subject_name
+    = button_tag "Убрать предмет из списка", class: "btn-remove-subject"
+%br/
+%h2 Заочная форма обучения
+- @user.extramular_subjects.each do |extramular_subject|
+  .extramular-subject
+    %p.extramular-subject-id{ "data-extramular-subject-id" => "#{extramular_subject.id}"}
+      = extramular_subject.subject_name
+    = button_tag "Убрать предмет из списка", class: "btn-remove-extramular-subject"

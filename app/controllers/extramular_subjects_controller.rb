@@ -11,6 +11,23 @@ class ExtramularSubjectsController < ApplicationController
     render json: @subject_id
   end
 
+  def change_ext_user_id
+    @subject_id = params[:change_user][:subject_id]
+    @user_id = params[:change_user][:user_id]
+    @temp = ExtramularSubject.find(@subject_id)
+    @temp.user_id = @user_id
+    @temp.save
+    @surname = "#{User.find(@user_id).surname} #{User.find(@user_id).name.first}. #{User.find(@user_id).patronymic.first}."
+    render html: @surname
+  end
+
+  def remove_extramular_subject
+    @extramular_subject_id = params[:extramular_subject_id]
+    @temp = ExtramularSubject.find(@extramular_subject_id)
+    @temp.user_id = nil
+    @temp.save
+  end
+
   def insert_to_bd_extramular
     @xls = Roo::Spreadsheet.open(current_user.files_excels.last.input_file, {:expand_merged_ranges => true})
 
@@ -418,6 +435,10 @@ class ExtramularSubjectsController < ApplicationController
   end
 
   private
+    def authorize_extramular_subject
+      authorize @extramular_subject
+    end
+
     def set_extramular_subject
       @extramular_subject = ExtramularSubject.find(params[:id])
     end

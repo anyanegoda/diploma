@@ -1,15 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-  def add_educational_and_methodical_works
-    @temp = User.find(current_user.id)
-    # @quantity_hash = params[:quantity_hash]
-    # @quantity_hash.permit(:c)
-    binding.pry
-    @temp.educational_and_methodical_works = params[:quantity_hash]#.to_unsafe_h
-    @temp.save
-  end
-
   def index
     @users = User.all
   end
@@ -18,9 +9,16 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  # GET /subjects/new
-  def new
-    @subject = Subject.new
+  def make_admin
+    @user = User.find(params[:id])
+    @user.update(admin: true)
+    redirect_to users_path
+  end
+
+  def revoke_admin
+    @user = User.find(params[:id])
+    @user.update(admin: false)
+    redirect_to users_path
   end
 
   def update
@@ -32,7 +30,14 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
+    @user = User.find(params[:id])
+
+    if @user.destroy
+      redirect_to users_path, notice: "Пользователь был удалён."
+    else
+      redirect_to users_path, flash: { error: "Пользователь не может быть удалён." }
+    end
+
   end
 
   private
@@ -42,7 +47,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user)  
+    params.require(:user)
   end
 
 end

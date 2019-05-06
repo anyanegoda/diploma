@@ -7,7 +7,6 @@ $(document).on 'turbolinks:load', ->
       type: "POST"
       data: { subject_id: subject_id }
       success: (data) ->
-        debugger
         $("#select-subject option[value="+data+"]").remove()
       error: (data) ->
         text_error = "Проблемы с записью в БД. Перезагрузите страницу и попробуйте снова."
@@ -25,3 +24,19 @@ $(document).on 'turbolinks:load', ->
         alert("Ok")
       error: (data) ->
         alert("Not ok")
+  $('.user-select-change').on 'click', ->
+    user_id = $(this).parents('.change-user').find('#select-user').val()
+    subject_id = $(this).parents('.change-user').find('select option').data('subject-id')
+    change = $(this).parents('.change-user')
+    debugger
+    $.ajax
+      url: "/change_user_id"
+      type: "POST"
+      data: { change_user: {user_id: user_id, subject_id: subject_id }}
+      success: (data) ->
+        debugger
+        change.parents("tr").find('.user-initials').text data
+      error: (data) ->
+        text_error = "Проблемы с записью в БД. Перезагрузите страницу и попробуйте снова."
+        $('#error .error-text').html(text_error)
+        $('#error').addClass('visible')

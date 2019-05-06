@@ -20,6 +20,10 @@
   <%= NameWork.find(@work.name_work_id).name %>
 </p>
 
-<%= link_to 'Edit', edit_work_path(@work) %> |
+<% if policy(@work).edit? %>
+  <%= link_to 'Edit', edit_work_path(@work) %> |
+<% end %>
 <%= link_to 'Back', works_path %> |
-<%= link_to 'New Work', new_work_path %>
+<% if policy(@work).create? %>
+  <%= link_to 'New Work', new_work_path %>
+<% end %>

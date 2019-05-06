@@ -180,5 +180,9 @@
   <%= @setting.years %>
 </p>
 
-<%= link_to 'Edit', edit_setting_path(@setting) %> |
-<%= link_to 'Back', settings_path %>
+<% if policy(@setting).edit? %>
+  <%= link_to 'Edit', edit_setting_path(@setting) %> |
+<% end %>
+<% if policy(@setting).index? %>
+  <%= link_to 'Back', settings_path %>
+<% end %>

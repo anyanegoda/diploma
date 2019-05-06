@@ -2,5 +2,9 @@
 
 <%= render 'form', setting: @setting %>
 
-<%= link_to 'Show', @setting %> |
-<%= link_to 'Back', settings_path %>
+<% if policy(@setting).show? %>
+  <%= link_to 'Show', @setting %> |
+<% end %>
+<% if policy(@setting).index? %>
+  <%= link_to 'Back', settings_path %>
+<% end %>
