@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :subjects
   has_many :extramular_subjects
   has_many :files_excels
+  has_many :settings
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :trackable
   mount_uploader :avatar, AvatarUploader

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_03_154323) do
+ActiveRecord::Schema.define(version: 2019_05_09_125437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,8 @@ ActiveRecord::Schema.define(version: 2019_05_03_154323) do
     t.string "test_hours_full"
     t.string "test_hours_extramural"
     t.string "years"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_settings_on_user_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -168,6 +170,7 @@ ActiveRecord::Schema.define(version: 2019_05_03_154323) do
 
   add_foreign_key "extramular_subjects", "users"
   add_foreign_key "files_excels", "users"
+  add_foreign_key "settings", "users"
   add_foreign_key "subjects", "users"
   add_foreign_key "works", "name_works"
 end

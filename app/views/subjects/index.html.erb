@@ -12,7 +12,7 @@
       <%= file_field_tag 'input_file' %>
       <%= submit_tag "Upload file" %>
     <% end %>
-  <% end %>
+
 
   <h1>Download file</h1>
   <%= button_to "Очистить историю", destroy_all_output_files_path %>
@@ -23,12 +23,7 @@
 
 <h1>Subjects</h1>
 
-<% if policy(@subjects).edit? %>
-  <td><%= link_to 'Edit', edit_subject_path(subject) %></td>
-<% end %>
-<% if policy(@subjects).destroy? %>
-  <td><%= link_to 'Удалить', subject, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
-<% end %>
+
 
 <table>
   <thead>
@@ -182,3 +177,4 @@
 <br>
 
 <%= button_to 'Create excel', create_excel_path, class: 'button'  %>
+<% end %>

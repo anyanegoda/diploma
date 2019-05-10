@@ -12,10 +12,11 @@
     <b><%= link_to 'ПРЕДМЕТЫ - ЗАОЧНАЯ ФОРМА ОБУЧЕНИЯ', extramular_subjects_path %></b>
     <b><%= link_to 'ВНЕУЧЕБНАЯ РАБОТА', works_path %></b>
     <b><%= link_to 'Пользователи', users_path %></b>
-    <% if current_user.admin? %>
-      <b><%= link_to 'НАСТРОЙКИ', settings_path %></b>
-    <% end %>
     <% if user_signed_in? %>
+      <% if current_user.admin? %>
+        <b><%= link_to 'НАСТРОЙКИ', settings_path %></b>
+      <% end %>
+      
       <b><%= link_to 'Личный кабинет', current_user %></b>
     <% end %>
     <br>
