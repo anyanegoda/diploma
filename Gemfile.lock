@@ -275,7 +275,7 @@ DEPENDENCIES
   writeexcel
 
 RUBY VERSION
-   ruby 2.4.5p335
+   ruby 2.4.4p296
 
 BUNDLED WITH
    2.0.1

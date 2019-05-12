@@ -31,3 +31,7 @@
     %p.extramular-subject-id{ "data-extramular-subject-id" => "#{extramular_subject.id}"}
       = extramular_subject.subject_name
     = button_tag "Убрать предмет из списка", class: "btn-remove-extramular-subject"
+%h1 Download file
+= button_to "Очистить историю", destroy_all_output_files_path
+- current_user.files_excels.each do |file|
+  %a{:href => file.output_file}= file.output_file

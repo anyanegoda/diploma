@@ -2,21 +2,26 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 $(document).on 'turbolinks:load', ->
-  $('.btn-remove-subject').on 'click', ->
-    subject_id = $(this).parents('.subject').find('.subject-id').data('subject-id')
+  $('body').on 'click', '.btn-remove-subject', ->
+    subject_id = $(this).data('subject-id')
     this_btn = $(this)
     $.ajax
       url: "/remove_subject"
       type: "POST"
       data: { subject_id: subject_id }
       success: (data) ->
-        this_btn.parents('.subject').remove()
+        parent = this_btn.parents('tr')
+        parent.find('.user-initials').text('')
+        parent.find('.btn-remove-subject').removeClass('btn-remove-subject').addClass('subject-select-add')
+        parent_clone = parent.clone()
+        parent.remove()
+        $('#empty-disciplines tbody').append(parent_clone)
       error: (data) ->
         text_error = "Проблемы с записью в БД. Перезагрузите страницу и попробуйте снова."
         $('#error .error-text').html(text_error)
         $('#error').addClass('visible')
 
-  $('.btn-remove-extramular-subject').on 'click', ->
+  $('body').on 'click', '.btn-remove-extramular-subject', ->
     extramular_subject_id = $(this).parents('.extramular-subject').find('.extramular-subject-id').data('extramular-subject-id')
     this_btn = $(this)
     debugger

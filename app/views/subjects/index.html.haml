@@ -1,0 +1,99 @@
+%p#notice= notice
+#error
+  %span.error-text
+  %span.error-close ✕
+%h3 Выбранные Вами дисциплины
+%table#choosed-disciplines
+  %thead
+    %tr
+      %th Название дисциплины
+      %th Курс
+      %th Семестр
+      %th Направление подготовки
+      %th Преподаватель
+      - if policy(@subjects).change_user_id?
+        %th Изменить
+      %th
+  %tbody
+    - @subjects.each do |subject|
+      - if subject.user_id == current_user.id
+        %tr
+          %td= subject.subject_name
+          %td= subject.course
+          %td= subject.semester
+          %td= subject.training_direction
+          %td.user-initials
+            = "#{subject.user.surname} #{subject.user.name.first}. #{subject.user.patronymic.first}." if subject.user != nil
+          - if policy(subject).change_user_id?
+            %td.change-user{"data-current-user-id": current_user.id}
+              %select.select-user{:name => "user-id"}
+                - @users = User.all
+                = @users.each do |user|
+                  %option{"data-subject-id" => subject.id, "data-user-id" => user.id, :value => user.id}= "#{user.surname} #{user.name.first}. #{user.patronymic.first}."
+              = button_tag "", class: "user-select-change"
+          %td= button_tag '', class: 'btn-remove-subject', 'data-subject-id': subject.id
+%h3 Свободные дисциплины
+%table#empty-disciplines
+  %thead
+    %tr
+      %th Название дисциплины
+      %th Курс
+      %th Семестр
+      %th Направление подготовки
+      %th.teacher Преподаватель
+      - if policy(@subjects).change_user_id?
+        %th Изменить
+      %th
+  %tbody
+    - @subjects.each do |subject|
+      - if subject.user_id == nil
+        %tr
+          %td= subject.subject_name
+          %td= subject.course
+          %td= subject.semester
+          %td= subject.training_direction
+          %td.user-initials.teacher
+            = "#{subject.user.surname} #{subject.user.name.first}. #{subject.user.patronymic.first}." if subject.user != nil
+          - if policy(subject).change_user_id?
+            %td.change-user{"data-current-user-id": current_user.id}
+              %select.select-user{:name => "user-id"}
+                - @users = User.all
+                = @users.each do |user|
+                  %option{"data-subject-id" => subject.id, "data-user-id" => user.id, :value => user.id}= "#{user.surname} #{user.name.first}. #{user.patronymic.first}."
+              = button_tag "", class: "user-select-change"
+          - if subject.user_id == nil
+            %td.add-subject
+              = button_tag "", class: "subject-select-add", 'data-subject-id': subject.id
+%h3 Занятые дисциплины
+%table#busy-disciplines
+  %thead
+    %tr
+      %th Название дисциплины
+      %th Курс
+      %th Семестр
+      %th Направление подготовки
+      %th Преподаватель
+      - if policy(@subjects).change_user_id?
+        %th Изменить
+        %th
+  %tbody
+    - @subjects.each do |subject|
+      - if subject.user_id != nil &&  subject.user_id != current_user.id
+        %tr
+          %td= subject.subject_name
+          %td= subject.course
+          %td= subject.semester
+          %td= subject.training_direction
+          %td.user-initials
+            = "#{subject.user.surname} #{subject.user.name.first}. #{subject.user.patronymic.first}." if subject.user != nil
+          - if policy(subject).change_user_id?
+            %td.change-user{"data-current-user-id": current_user.id}
+              %select.select-user{:name => "user-id"}
+                - @users = User.all
+                = @users.each do |user|
+                  %option{"data-subject-id" => subject.id, "data-user-id" => user.id, :value => user.id}= "#{user.surname} #{user.name.first}. #{user.patronymic.first}."
+              = button_tag "", class: "user-select-change"
+          - if policy(@subjects).change_user_id?
+            %td= button_tag '', class: 'btn-remove-subject', 'data-subject-id': subject.id
+%br/
+= button_to 'Create excel', create_excel_path, class: 'button'

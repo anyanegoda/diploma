@@ -1,0 +1,100 @@
+%p#notice= notice
+
+- if user_signed_in?
+  - if policy(@settings).save_input_file?
+    %h1 Upload file
+    = form_tag({action: :save_input_file}, multipart: true) do
+      = file_field_tag 'input_file'
+      = submit_tag "Upload file"
+
+- if policy(@settings).destroy_all_subjects?
+  = button_to "Очистить таблицу Предметы", destroy_all_subjects_path
+- if policy(@settings).insert_to_bd?
+  = button_to 'Insert subjects', insert_to_bd_path
+
+%h1 Settings
+%table
+  %thead
+    %tr
+      %th Discipline full
+      %th Discipline extramural
+      %th Training direction full
+      %th Training direction extramural
+      %th Course full
+      %th Course extramural
+      %th Contingent full
+      %th Contingent extramural
+      %th Subgroups full
+      %th Subgroups extramural
+      %th Semester full
+      %th Lectures full
+      %th Lectures extramural
+      %th Practical classes full
+      %th Practical classes extramural
+      %th Laboratory classes full
+      %th Laboratory classes extramural
+      %th Modular control full
+      %th Consultation full
+      %th Consultation extramural
+      %th Test plan full
+      %th Test plan extramural
+      %th Test hours full
+      %th Test hours extramural
+      %th Exam full
+      %th Exam extramural
+      %th Exam v extramural
+      %th Exam w extramural
+      %th Work plan full
+      %th Work plan extramural
+      %th Budget hours full
+      %th Budget hours
+      %th Contract hours full
+      %th Contract hours extramural
+      %th Department
+      %th Years
+      %th{:colspan => "3"}
+  %tbody
+    - @settings.each do |setting|
+      %tr
+        %td= setting.discipline_full
+        %td= setting.discipline_extramural
+        %td= setting.training_direction_full
+        %td= setting.training_direction_extramural
+        %td= setting.course_full
+        %td= setting.course_extramural
+        %td= setting.contingent_full
+        %td= setting.contingent_extramural
+        %td= setting.subgroups_full
+        %td= setting.subgroups_extramural
+        %td= setting.semester_full
+        %td= setting.lectures_full
+        %td= setting.lectures_extramural
+        %td= setting.practical_classes_full
+        %td= setting.practical_classes_extramural
+        %td= setting.laboratory_classes_full
+        %td= setting.laboratory_classes_extramural
+        %td= setting.modular_control_full
+        %td= setting.consultation_full
+        %td= setting.consultation_extramural
+        %td= setting.test_plan_full
+        %td= setting.test_plan_extramural
+        %td= setting.test_hours_full
+        %td= setting.test_hours_extramural
+        %td= setting.exam_full
+        %td= setting.exam_extramural
+        %td= setting.exam_v_extramural
+        %td= setting.exam_w_extramural
+        %td= setting.work_plan_full
+        %td= setting.work_plan_extramural
+        %td= setting.budget_hours_full
+        %td= setting.budget_hours_extramural
+        %td= setting.contract_hours_full
+        %td= setting.contract_hours_extramural
+        %td= setting.department
+        %td= setting.years
+        - if policy(setting).show?
+          %td= link_to 'Show', setting
+        - if policy(setting).edit?
+          %td= link_to 'Edit', edit_setting_path(setting)
+        - if policy(setting).destroy?
+          %td= link_to 'Destroy', setting, method: :delete, data: { confirm: 'Are you sure?' }

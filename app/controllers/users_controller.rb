@@ -3,22 +3,28 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    @title = 'ПОЛЬЗОВАТЕЛИ'
+    @subtitle = 'Преподаватели кафедры'
   end
 
   def show
     @user = User.find(params[:id])
+    @title = 'ЛИЧНЫЙ КАБИНЕТ'
+  end
+
+  def destroy_all_output_files
+    current_user.files_excels.destroy_all
+    redirect_to current_user
   end
 
   def make_admin
     @user = User.find(params[:id])
     @user.update(admin: true)
-    redirect_to users_path
   end
 
   def revoke_admin
     @user = User.find(params[:id])
     @user.update(admin: false)
-    redirect_to users_path
   end
 
   def update
@@ -26,7 +32,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.toggle!(:admin)
     flash[:success] = 'OK!'
-    redirect_to root_path
+    redirect_to current_user
   end
 
   def destroy

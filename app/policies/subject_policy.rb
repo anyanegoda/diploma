@@ -38,8 +38,4 @@ class SubjectPolicy < ApplicationPolicy
     @current_user&.admin? || @current_user.id == @subject.user.id
   end
 
-  def save_input_file?
-    @current_user&.admin?
-  end
-
 end

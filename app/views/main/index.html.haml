@@ -1,0 +1,27 @@
+.section-main-grid
+  .smg-block
+    .smg-text
+      %h2 Дисциплины
+      %p Очная форма обучения
+    =link_to 'ПЕРЕЙТИ', subjects_path, class: 'smg-link'
+  .smg-block
+    .smg-text
+      %h2 Дисциплины
+      %p Заочная форма обучения
+    =link_to 'ПЕРЕЙТИ', extramular_subjects_path , class: 'smg-link'
+  .smg-block
+    .smg-text
+      %h2 Внеучебная работа
+      %p Расчет плана внеучебной работы
+    =link_to 'ПЕРЕЙТИ', works_path, class: 'smg-link'
+  .smg-block
+    .smg-text
+      %h2 Пользователи
+      %p Все преподаватели кафедры
+    =link_to 'ПЕРЕЙТИ', users_path, class: 'smg-link'
+  - if current_user.admin?
+    .smg-block
+      .smg-text
+        %h2 Настройки
+        %p Редактирование полей
+      =link_to 'ПЕРЕЙТИ', settings_path, class: 'smg-link'

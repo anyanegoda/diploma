@@ -24,3 +24,49 @@
 #error.visible {
   bottom: 50%;
 }
+
+.user-select-change, .btn-remove-subject, .subject-select-add {
+  background-image: url("save.svg");
+  background-repeat: no-repeat;
+  height: 21px;
+  width: 18px;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  margin-left: 20px;
+}
+
+.select-user {
+  height: 20px;
+  -webkit-appearance: none;
+  border: 0;
+  background-color: transparent;
+  padding-right: 20px;
+  background-image: url("polygon.svg");
+  background-repeat: no-repeat;
+  background-position: right;
+  &:focus {
+    outline: none;
+  }
+}
+
+.change-user {
+  display: flex;
+  align-items: center;
+}
+
+.btn-remove-subject {
+  background-image: url("delete.svg");
+  margin: 0;
+}
+
+.subject-select-add {
+  background-image: url("add.svg");
+  margin: 6px 0 0;
+}
+
+#empty-disciplines {
+  .teacher {
+    display: none;
+  }
+}

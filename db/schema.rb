@@ -15,6 +15,22 @@ ActiveRecord::Schema.define(version: 2019_05_09_125437) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "educational_and_methodical_works", force: :cascade do |t|
+    t.string "work_name"
+    t.float "time_rate"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "educational_works", force: :cascade do |t|
+    t.string "work_name"
+    t.float "time_rate"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "extramular_subjects", force: :cascade do |t|
     t.string "subject_name"
     t.string "course"
@@ -54,6 +70,22 @@ ActiveRecord::Schema.define(version: 2019_05_09_125437) do
 
   create_table "name_works", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "organizational_and_methodical_works", force: :cascade do |t|
+    t.string "work_name"
+    t.float "time_rate"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "research_works", force: :cascade do |t|
+    t.string "work_name"
+    t.float "time_rate"
+    t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

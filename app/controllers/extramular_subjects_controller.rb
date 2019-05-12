@@ -405,6 +405,8 @@ class ExtramularSubjectsController < ApplicationController
 
   def index
     @extramular_subjects = ExtramularSubject.all
+    @title = 'ДИСЦИПЛИНЫ'
+    @subtitle = 'Учебная нагрузка заочной формы обучения'
     respond_with(@extramular_subjects)
   end
 

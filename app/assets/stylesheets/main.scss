@@ -1,0 +1,77 @@
+// Place all the styles related to the Main controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.section-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 30px;
+}
+
+.smg-block {
+  border-radius: 10px;
+  box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
+  padding: 15px 20px;
+  color: #FFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  &:nth-of-type(1) {
+    background: linear-gradient(114.62deg, #FD5D2C 15.26%, #FF7D55 93.63%);
+    .smg-link {
+      color: #FD5D2C;
+    }
+  }
+  &:nth-of-type(2) {
+    background: linear-gradient(114.62deg, #8175FE 15.26%, #A18CFF 93.63%);
+    .smg-link {
+      color: #8175FE;
+    }
+  }
+  &:nth-of-type(3) {
+    background: linear-gradient(114.62deg, #458CE4 15.26%, #86D0F7 93.63%);
+    .smg-link {
+      color: #458CE4;
+    }
+  }
+  &:nth-of-type(4) {
+    background: linear-gradient(114.62deg, #E3503E 15.26%, #FF513C 93.63%);
+    .smg-link {
+      color: #E3503E;
+    }
+  }
+  &:nth-of-type(5) {
+    background: linear-gradient(114.62deg, #55C293 15.26%, #1FF096 93.63%);
+    .smg-link {
+      color: #55C293;
+    }
+  }
+}
+
+.smg-link {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 7px;
+  display: block;
+  width: 70%;
+  margin: 30px auto;
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: bold;
+  padding: 15px 0;
+  border: 5px solid #fff;
+  transition: .3s ease-out;
+  &:hover {
+    color: #fff !important;
+    background: transparent;
+    text-decoration: none;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+
+}
+
+@media only screen and (max-width: 768px) {
+
+
+}

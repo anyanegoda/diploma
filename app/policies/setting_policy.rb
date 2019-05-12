@@ -26,4 +26,8 @@ class SettingPolicy < ApplicationPolicy
     @current_user&.admin?
   end
 
+  def save_input_file?
+    @current_user&.admin?
+  end
+
 end
