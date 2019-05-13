@@ -33,6 +33,8 @@ class WorksController < ApplicationController
   def index
     @works = Work.all
     @name_works = NameWork.all
+    @title = 'ВНЕУЧЕБНАЯ РАБОТА'
+    @subtitle = 'Нормы времени для планирования и учёта объёма внеучебной работы'
     respond_with(@works)
   end
 

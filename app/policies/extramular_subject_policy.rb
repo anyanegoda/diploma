@@ -22,14 +22,6 @@ class ExtramularSubjectPolicy < ApplicationPolicy
     @current_user&.admin?
   end
 
-  def insert_to_bd_extramular?
-    @current_user&.admin?
-  end
-
-  def destroy_all_extramular_subjects?
-    @current_user&.admin?
-  end
-
   def change_ext_user_id?
     @current_user&.admin?
   end

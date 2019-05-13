@@ -1,0 +1,126 @@
+%p#notice= notice
+#error
+  %span.error-text
+  %span.error-close ✕
+- if policy(@name_works).index?
+  %h2= link_to 'Просмотреть виды работ', name_works_path, class: 'custom-link'
+.tab
+  %button.tablinks{"data-work-type": "work-em", type: "button", class: 'active'} Учебно-методическая
+  %button.tablinks{"data-work-type": "work-r", type: "button"} Научно-исследовательская
+  %button.tablinks{"data-work-type": "work-om", type: "button"} Организационно-методическая
+  %button.tablinks{"data-work-type": "work-e", type: "button"} Воспитательная
+#work-em.tabcontent{style: 'display: block'}
+  %table
+    %thead
+      %tr
+        %th Наименование
+        %th Норма времени в часах
+        %th Примечание
+        %th Вид работы
+        %th Количество
+        %th Итого
+        %th{:colspan => "2"}
+    %tbody
+      - @works.each do |work|
+        - if work.name_work_id == 1
+          %tr
+            %td= work.work_title
+            %td= work.time_rate
+            %td= work.note
+            %td= NameWork.find(work.name_work_id).name
+            %td
+              %input#quantity-em.quantity-em{"data-name-input": work.work_title, "data-time": work.time_rate, min: "0", name: "quantity-em", type: "number", class: "input-work"}
+            %td
+              %p.new-quantity-em
+            - if policy(work).edit?
+              %td= link_to '', edit_work_path(work), class: 'edit-link'
+            - if policy(work).destroy?
+              %td= link_to ' ', work, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'delete-link'
+  = button_tag "Сохранить изменения", class: "add-quantity-em button button-primary"
+#work-r.tabcontent
+  %table
+    %thead
+      %tr
+        %th Наименование
+        %th Норма времени в часах
+        %th Примечание
+        %th Вид работы
+        %th Количество
+        %th Итого
+        %th{:colspan => "2"}
+    %tbody
+      - @works.each do |work|
+        - if work.name_work_id == 2
+          %tr
+            %td= work.work_title
+            %td= work.time_rate
+            %td= work.note
+            %td= NameWork.find(work.name_work_id).name
+            %td
+              %input#quantity-r.quantity-r{"data-name-input": work.work_title, "data-time": work.time_rate, min: "0", name: "quantity-r", type: "number", class: "input-work"}
+            %td
+              %p.new-quantity-r
+            - if policy(work).edit?
+              %td= link_to '', edit_work_path(work), class: 'edit-link'
+            - if policy(work).destroy?
+              %td= link_to ' ', work, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'delete-link'
+  = button_tag "Сохранить изменения", class: "add-quantity-r button button-primary"
+#work-om.tabcontent
+  %table
+    %thead
+      %tr
+        %th Наименование
+        %th Норма времени в часах
+        %th Примечание
+        %th Вид работы
+        %th Количество
+        %th Итого
+        %th{:colspan => "2"}
+    %tbody
+      - @works.each do |work|
+        - if work.name_work_id == 3
+          %tr
+            %td= work.work_title
+            %td= work.time_rate
+            %td= work.note
+            %td= NameWork.find(work.name_work_id).name
+            %td
+              %input#quantity-om.quantity-om{"data-name-input": work.work_title, "data-time": work.time_rate, min: "0", name: "quantity-om", type: "number", class: "input-work"}
+            %td
+              %p.new-quantity-om
+            - if policy(work).edit?
+              %td= link_to '', edit_work_path(work), class: 'edit-link'
+            - if policy(work).destroy?
+              %td= link_to ' ', work, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'delete-link'
+  = button_tag "Сохранить изменения", class: "add-quantity-om button button-primary"
+#work-e.tabcontent
+  %table
+    %thead
+      %tr
+        %th Наименование
+        %th Норма времени в часах
+        %th Примечание
+        %th Вид работы
+        %th Количество
+        %th Итого
+        %th{:colspan => "2"}
+    %tbody
+      - @works.each do |work|
+        - if work.name_work_id == 4
+          %tr
+            %td= work.work_title
+            %td= work.time_rate
+            %td= work.note
+            %td= NameWork.find(work.name_work_id).name
+            %td
+              %input#quantity-e.quantity-e{"data-name-input": work.work_title, "data-time": work.time_rate, min: "0", name: "quantity-e", type: "number", class: "input-work"}
+            %td
+              %p.new-quantity-e
+            - if policy(work).edit?
+              %td= link_to '', edit_work_path(work), class: 'edit-link'
+            - if policy(work).destroy?
+              %td= link_to ' ', work, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'delete-link'
+  = button_tag "Сохранить изменения", class: "add-quantity-e button button-primary"
+%br/
+- if policy(@works).create?
+  = link_to 'New Work', new_work_path, class: 'custom-link'

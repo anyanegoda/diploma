@@ -39,6 +39,7 @@ gem "responders"
 gem "pundit"
 gem 'jquery-rails'
 gem 'write_xlsx'
+gem 'rails-i18n', '~> 5.1'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

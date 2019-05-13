@@ -1,0 +1,48 @@
+.registration-block
+  .registration-block-img
+  .registration-block-form
+    = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+      = devise_error_messages!
+      .fields
+        .field
+          = f.label :Фамилия
+          = f.text_field :surname, autofocus: true, autocomplete: "surname"
+        .field
+          = f.label :Имя
+          = f.text_field :name, autofocus: true, autocomplete: "name"
+      .field
+        = f.label :Отчество
+        = f.text_field :patronymic, autofocus: true, autocomplete: "patronymic"
+      .field
+        = f.label :Логин
+        = f.text_field :username, autofocus: true, autocomplete: "username"
+      .field
+        = f.label :Ученое_звание_и_ученая_степень
+        = f.text_field :academic_degree, autofocus: true, autocomplete: "academic_degree"
+      .field
+        = f.label :Должность
+        = f.text_field :post, autofocus: true, autocomplete: "post"
+      .fields
+        .field
+          = f.label :Ставка_или_её_часть
+          = f.text_field :rate, autofocus: true, autocomplete: "rate"
+        .field
+          = f.label :Фото
+          = image_tag(@user.avatar.url) if @user.avatar?
+          = f.file_field :avatar
+          = f.hidden_field :avatar_cache
+      .field
+        = f.label :Email
+        = f.email_field :email, autofocus: true, autocomplete: "email"
+      .fields
+        .field
+          = f.label :Пароль
+          - if @minimum_password_length
+            %em (минимум #{@minimum_password_length} символов )
+          = f.password_field :password, autocomplete: "new-password"
+        .field
+          = f.label :Подтверждение_пароля
+          = f.password_field :password_confirmation, autocomplete: "new-password"
+      .actions
+        = f.submit "Зарегистрироваться", class: 'button button-primary'
+        = render "devise/shared/links"
