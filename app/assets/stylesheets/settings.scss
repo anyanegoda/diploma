@@ -1,3 +1,118 @@
 // Place all the styles related to the Settings controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.button-settings {
+  margin: 0 !important;
+}
+
+.settings-block {
+  background: #FCFCFD;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.button-settings-page{
+  width: 370px;
+  height: 50px;
+  border-radius: 7px;
+  font-size: 1rem;
+  font-weight: bold;
+  display: block;
+  background: #FFFFFF;
+  box-sizing: border-box;
+  border-radius: 7px;
+  cursor: pointer;
+  color: #1F2124;
+  transition: .3s ease-out;
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    color: #FFFFFF;
+  }
+  &:first-of-type {
+    margin-bottom: 20px;
+  }
+}
+
+.button-add {
+  border: 3px solid #4CAF50;
+  &:hover {
+    background: #4CAF50;
+  }
+}
+
+.button-delete{
+  border: 3px solid #F44336;
+  &:hover {
+    background: #F44336;
+  }
+}
+
+.settings-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.insert-to-bd {
+  margin-right: 20px;
+}
+
+#input_file {
+  margin-bottom: 49px;
+}
+
+.inputs-settings {
+  &:first-of-type {
+    margin-top: 30px;
+  }
+  padding: 20px;
+  background: #FCFCFD;
+  border-radius: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.field {
+  label {
+    font-size: 1.125rem;
+    color: #1F2124;
+    margin-bottom: 10px;
+  }
+  input {
+    background: #FFFFFF;
+    border: 1px solid #ADB7BE;
+    box-sizing: border-box;
+    border-radius: 7px;
+    max-width: 340px;
+    width: 350px;
+    height: 40px;
+    font-size: 1.125rem;
+    color: #585A5C;
+    padding-left: 10px;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+@media only screen and (max-width: 1100px){
+  .settings-block {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .settings-block {
+    grid-template-columns: 1fr;
+  }
+  .button-settings {
+    margin-bottom: 20px !important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .button-settings-page {
+    width: 270px;
+    white-space: normal;
+  }
+}

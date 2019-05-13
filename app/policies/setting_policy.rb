@@ -26,4 +26,24 @@ class SettingPolicy < ApplicationPolicy
     @current_user&.admin?
   end
 
+  def save_input_file?
+    @current_user&.admin?
+  end
+
+  def insert_to_bd?
+    @current_user&.admin?
+  end
+
+  def destroy_all_subjects?
+    @current_user&.admin?
+  end
+
+  def insert_to_bd_extramular?
+    @current_user&.admin?
+  end
+
+  def destroy_all_extramular_subjects?
+    @current_user&.admin?
+  end
+
 end

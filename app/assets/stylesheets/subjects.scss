@@ -24,3 +24,56 @@
 #error.visible {
   bottom: 50%;
 }
+
+.user-select-change, .btn-remove-subject, .subject-select-add, .user-select-change-ext,
+.btn-remove-extramular-subject, .extramular-subject-select-add, .user-select-change-up,
+.btn-remove-subject-up, .user-select-change-ext-up, .btn-remove-extramular-subject-up, .edit-link, .delete-link {
+  background-image: url("save.svg");
+  background-repeat: no-repeat;
+  height: 21px;
+  width: 18px;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  margin-left: 20px;
+  &:focus {
+    outline: none;
+  }
+}
+
+.select-user, .select-user-ext {
+  height: 20px;
+  -webkit-appearance: none;
+  border: 0;
+  background-color: transparent;
+  padding-right: 20px;
+  background-image: url("polygon.svg");
+  background-repeat: no-repeat;
+  background-position: right;
+  font-size: 1rem;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.change-user, .change-user-ext, .user-select-change-up, .user-select-change-ext-up {
+  display: flex;
+  align-items: center;
+}
+
+.btn-remove-subject, .btn-remove-extramular-subject, .btn-remove-subject-up, .btn-remove-extramular-subject-up, .delete-link {
+  background-image: url("delete.svg");
+  margin: 0;
+}
+
+.subject-select-add, .extramular-subject-select-add {
+  background-image: url("add.svg");
+  margin: 6px 0 0;
+}
+
+#empty-disciplines, #empty-disciplines-ext {
+  .teacher {
+    display: none;
+  }
+}
