@@ -12,6 +12,11 @@
 - if policy(@settings).insert_to_bd?
   = button_to 'Insert subjects', insert_to_bd_path
 
+- if policy(@settings).insert_to_bd_extramular?
+  = button_to 'Insert subjects', insert_to_bd_extramular_path
+- if policy(@settings).destroy_all_extramular_subjects?
+  = button_to "Очистить таблицу Предметы - заочка", destroy_all_extramular_subjects_path
+
 %h1 Settings
 %table
   %thead

@@ -10,7 +10,7 @@
       %th Курс
       %th Семестр
       %th Направление подготовки
-      %th Преподаватель
+      %th.teacher Преподаватель
       - if policy(@subjects).change_user_id?
         %th Изменить
       %th
@@ -22,14 +22,14 @@
           %td= subject.course
           %td= subject.semester
           %td= subject.training_direction
-          %td.user-initials
+          %td.user-initials.teacher
             = "#{subject.user.surname} #{subject.user.name.first}. #{subject.user.patronymic.first}." if subject.user != nil
           - if policy(subject).change_user_id?
             %td.change-user{"data-current-user-id": current_user.id}
               %select.select-user{:name => "user-id"}
                 - @users = User.all
                 = @users.each do |user|
-                  %option{"data-subject-id" => subject.id, "data-user-id" => user.id, :value => user.id}= "#{user.surname} #{user.name.first}. #{user.patronymic.first}."
+                  %option{"data-subject-id": subject.id, "data-user-id": user.id, :value => user.id}= "#{user.surname} #{user.name.first}. #{user.patronymic.first}."
               = button_tag "", class: "user-select-change"
           %td= button_tag '', class: 'btn-remove-subject', 'data-subject-id': subject.id
 %h3 Свободные дисциплины
@@ -61,9 +61,8 @@
                 = @users.each do |user|
                   %option{"data-subject-id" => subject.id, "data-user-id" => user.id, :value => user.id}= "#{user.surname} #{user.name.first}. #{user.patronymic.first}."
               = button_tag "", class: "user-select-change"
-          - if subject.user_id == nil
-            %td.add-subject
-              = button_tag "", class: "subject-select-add", 'data-subject-id': subject.id
+          %td.add-subject
+            = button_tag "", class: "subject-select-add", 'data-subject-id': subject.id
 %h3 Занятые дисциплины
 %table#busy-disciplines
   %thead
@@ -72,7 +71,7 @@
       %th Курс
       %th Семестр
       %th Направление подготовки
-      %th Преподаватель
+      %th.teacher Преподаватель
       - if policy(@subjects).change_user_id?
         %th Изменить
         %th
@@ -84,7 +83,7 @@
           %td= subject.course
           %td= subject.semester
           %td= subject.training_direction
-          %td.user-initials
+          %td.user-initials.teacher
             = "#{subject.user.surname} #{subject.user.name.first}. #{subject.user.patronymic.first}." if subject.user != nil
           - if policy(subject).change_user_id?
             %td.change-user{"data-current-user-id": current_user.id}
@@ -95,5 +94,3 @@
               = button_tag "", class: "user-select-change"
           - if policy(@subjects).change_user_id?
             %td= button_tag '', class: 'btn-remove-subject', 'data-subject-id': subject.id
-%br/
-= button_to 'Create excel', create_excel_path, class: 'button'

@@ -22,14 +22,6 @@ class SubjectPolicy < ApplicationPolicy
     @current_user&.admin?
   end
 
-  def insert_to_bd?
-    @current_user&.admin?
-  end
-
-  def destroy_all_subjects?
-    @current_user&.admin?
-  end
-
   def change_user_id?
     @current_user&.admin?
   end

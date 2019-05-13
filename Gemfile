@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.4.4'
+ruby '2.4.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1', '>= 5.2.1.1'
@@ -39,6 +39,7 @@ gem "responders"
 gem "pundit"
 gem 'jquery-rails'
 gem 'write_xlsx'
+gem 'rails-i18n', '~> 5.1'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

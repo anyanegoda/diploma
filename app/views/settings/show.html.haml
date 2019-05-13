@@ -1,0 +1,21 @@
+%p#notice= notice
+- if user_signed_in?
+  - if policy(@setting).save_input_file?
+    %h3 Загрузить файл
+    .settings-block
+      .upload-file
+        = form_tag({action: :save_input_file}, multipart: true) do
+          = file_field_tag 'input_file'
+          = submit_tag "Upload file", class: 'button button-primary button-settings'
+      .insert-to-bd
+        - if policy(@setting).insert_to_bd?
+          = button_to 'Добавить в таблицу Очные дисциплины', insert_to_bd_path, class: 'button-settings-page button-add'
+        - if policy(@setting).insert_to_bd_extramular?
+          = button_to 'Добавить в таблицу Заочные дисциплины', insert_to_bd_extramular_path, class: 'button-settings-page button-add'
+      .delete-from-bd
+        - if policy(@setting).destroy_all_subjects?
+          = button_to "Очистить таблицу Очные дисциплины", destroy_all_subjects_path, class: 'button-settings-page button-delete'
+        - if policy(@setting).destroy_all_extramular_subjects?
+          = button_to "Очистить таблицу Заочные дисциплины", destroy_all_extramular_subjects_path, class: 'button-settings-page button-delete'
+
+= render 'form', setting: @setting

@@ -1,0 +1,118 @@
+= form_with(model: setting, local: true) do |form|
+  - if setting.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(setting.errors.count, "error")
+        prohibited this setting from being saved:
+      %ul
+        - setting.errors.full_messages.each do |message|
+          %li= message
+  .inputs-settings
+    .field
+      = form.label :Учебный_год
+      = form.text_field :years
+    .field
+      = form.label :Название_кафедры
+      = form.text_field :department
+  %h3 Очная форма обучения
+  .inputs-settings
+    .field
+      = form.label :Столбец_с_названием_дисциплины
+      = form.text_field :discipline_full
+    .field
+      = form.label :Столбец_с_направлением_подготовки
+      = form.text_field :training_direction_full
+    .field
+      = form.label :Столбец_с_курсом
+      = form.text_field :course_full
+    .field
+      = form.label :Столбец_с_контингентом
+      = form.text_field :contingent_full
+    .field
+      = form.label :Столбец_с_количеством_подгрупп
+      = form.text_field :subgroups_full
+    .field
+      = form.label :Столбец_с_семестром
+      = form.text_field :semester_full
+    .field
+      = form.label :Столбец_с_количеством_лекций
+      = form.text_field :lectures_full
+    .field
+      = form.label :'Столбец_с_количеством_практических_занятий'
+      = form.text_field :practical_classes_full
+    .field
+      = form.label :'Столбец_с_количеством_лабораторных_занятий'
+      = form.text_field :laboratory_classes_full
+    .field
+      = form.label :Столбец_с_модульным_контролем
+      = form.text_field :modular_control_full
+    .field
+      = form.label :Столбец_с_консультациями
+      = form.text_field :consultation_full
+    .field
+      = form.label :'Столбец_с_зачётом_(предусмотреным_планом)'
+      = form.text_field :test_plan_full
+    .field
+      = form.label :'Столбец_с_зачётом_(расчёт_часов)'
+      = form.text_field :test_hours_full
+    .field
+      = form.label :Столбец_с_экзаменом
+      = form.text_field :exam_full
+    .field
+      = form.label :Предусмотрено_рабочим_планом
+      = form.text_field :work_plan_full
+    .field
+      = form.label :'Расчёт_часов_(бюджет)'
+      = form.text_field :budget_hours_full
+    .field
+      = form.label :'Расчёт_часов_(договор)'
+      = form.text_field :contract_hours_full
+  %h3 Заочная форма обучения
+  .inputs-settings
+    .field
+      = form.label :Столбец_с_названием_дисциплины
+      = form.text_field :discipline_extramural
+    .field
+      = form.label :Столбец_с_направлением_подготовки
+      = form.text_field :training_direction_extramural
+    .field
+      = form.label :Столбец_с_курсом
+      = form.text_field :course_extramural
+    .field
+      = form.label :Столбец_с_контингентом
+      = form.text_field :contingent_extramural
+    .field
+      = form.label :Столбец_с_количеством_подгрупп
+      = form.text_field :subgroups_extramural
+    .field
+      = form.label :Столбец_с_количеством_лекций
+      = form.text_field :lectures_extramural
+    .field
+      = form.label :'Столбец_с_количеством_практических_занятий'
+      = form.text_field :practical_classes_extramural
+    .field
+      = form.label :'Столбец_с_количеством_лабораторных_занятий'
+      = form.text_field :laboratory_classes_extramural
+    .field
+      = form.label :Столбец_с_консультациями
+      = form.text_field :consultation_extramural
+    .field
+      = form.label :'Столбец_с_зачётом_(предусмотреным_планом)'
+      = form.text_field :test_plan_extramural
+    .field
+      = form.label :'Столбец_с_зачётом_(расчёт_часов)'
+      = form.text_field :test_hours_extramural
+    .field
+      = form.label :Столбец_с_экзаменом
+      = form.text_field :exam_extramural
+    .field
+      = form.label :Столбец_с_устным_экзаменом
+      = form.text_field :exam_v_extramural
+    .field
+      = form.label :Столбец_с_письменным_экзаменом
+      = form.text_field :exam_w_extramural
+    .field
+      = form.label :'Расчёт_часов_(бюджет)'
+      = form.text_field :budget_hours_extramural
+  .actions
+    = form.submit 'Сохранить', class: 'button button-primary'

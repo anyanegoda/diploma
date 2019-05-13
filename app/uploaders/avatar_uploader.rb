@@ -17,9 +17,16 @@ class AvatarUploader < CarrierWave::Uploader::Base
     %w(jpg jpeg png)
   end
 
+
+  # process resize_to_fit: [300, 270]
+
   version :thumb do
     process resize_to_fill: [100, 100]
   end
+
+  # version :main do
+  #   process resize_to_fill: [300, 270]
+  # end
 
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

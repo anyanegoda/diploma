@@ -1,5 +1,5 @@
 body {
-  background-color: #E5E5E5;
+  background-color: #F8F8FA;
   color: #1F2124;
   margin: 0;
   font-family: 'Roboto', sans-serif;
@@ -81,7 +81,8 @@ th {
 
 td {
   height: 70px;
-  padding: 0 20px;
+  padding: 10px 20px;
+  line-height: 1.4rem;
   background-color: #F1F3FE;
 }
 
@@ -293,6 +294,9 @@ tbody {
   }
   .burger {
     order: -1;
+  }
+  .container {
+    overflow-x: auto;
   }
 }
 

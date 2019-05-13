@@ -1,37 +1,104 @@
 #error
   %span.error-text
   %span.error-close ✕
-%br/
-= image_tag(@user.avatar.thumb.url, alt: 'Аватар') if @user.avatar?
-%br/
-= @user.name
-= @user.surname
-= @user.id
-= @user.admin
-%br/
+.info-user-page
+  .avatar-user-page
+    - if @user.avatar?
+      = image_tag(@user.avatar.url, alt: 'Аватар')
+    - else
+      =image_tag("avatar.jpg", alt: 'Аватар')
+  .text-name
+    .name
+      %h3
+        ="#{@user.surname} #{@user.name} #{@user.patronymic}"
+      .switch-block
+        - if @user.admin && @user.id != current_user.id
+          %label.switch
+            %input{type: "checkbox", class: "checkbox", "data-user-id": @user.id, checked: "checked"}
+            %span.slider.round
+          %p.switch-text Удалить права администратора
+        - else
+          %label.switch
+            %input{type: "checkbox", class: "checkbox", "data-user-id": @user.id}
+            %span.slider.round
+          %p.switch-text Дать права администратора
+    .text-info
+      .text-info-names
+        %p Ученое звание и ученая степень:
+        %p Должность:
+        %p Ставка или ее часть:
+        %p Email:
+      .text-info-value
+        %p= @user.academic_degree
+        %p= @user.post
+        %p= @user.rate
+        %p= @user.email
 - if policy(@user).edit?
-  = link_to 'Редактировать профиль',  edit_user_registration_path(@user)
+  = link_to 'Редактировать профиль',  edit_user_registration_path(@user), class: 'custom-link'
 - if policy(@user).destroy?
-  = link_to 'Удалить профиль', @user, method: :delete, data: { confirm: 'Вы уверены?' }
-- if @user.admin
-  = link_to 'Удалить права администратора', users_revoke_admin_path(id: @user.id)
-- else
-  = link_to 'Дать права администратора', users_make_admin_path(:id => @user.id)
-%br/
-%h2 Очная форма обучения
-- @user.subjects.each do |subject|
-  .subject
-    %p.subject-id{ "data-subject-id" => "#{subject.id}"}
-      = subject.subject_name
-    = button_tag "Убрать предмет из списка", class: "btn-remove-subject"
-%br/
-%h2 Заочная форма обучения
-- @user.extramular_subjects.each do |extramular_subject|
-  .extramular-subject
-    %p.extramular-subject-id{ "data-extramular-subject-id" => "#{extramular_subject.id}"}
-      = extramular_subject.subject_name
-    = button_tag "Убрать предмет из списка", class: "btn-remove-extramular-subject"
-%h1 Download file
-= button_to "Очистить историю", destroy_all_output_files_path
-- current_user.files_excels.each do |file|
-  %a{:href => file.output_file}= file.output_file
+  = link_to 'Удалить профиль', @user, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'custom-link'
+
+%h3 Выбранные Вами дисциплины очной формы обучения
+%table
+  %thead
+    %tr
+      %th Название дисциплины
+      %th Курс
+      %th Семестр
+      %th Направление подготовки
+      %th.teacher Преподаватель
+      - if policy(@user.subjects).change_user_id?
+        %th Изменить
+      %th
+  %tbody
+    - @user.subjects.each do |subject|
+      %tr
+        %td= subject.subject_name
+        %td= subject.course
+        %td= subject.semester
+        %td= subject.training_direction
+        %td.user-initials.teacher
+          = "#{subject.user.surname} #{subject.user.name.first}. #{subject.user.patronymic.first}." if subject.user != nil
+        - if policy(subject).change_user_id?
+          %td.change-user{"data-current-user-id": current_user.id}
+            %select.select-user{:name => "user-id"}
+              - @users = User.all
+              = @users.each do |user|
+                %option{"data-subject-id": subject.id, "data-user-id": user.id, :value => user.id}= "#{user.surname} #{user.name.first}. #{user.patronymic.first}."
+            = button_tag "", class: "user-select-change-up"
+        %td= button_tag '', class: 'btn-remove-subject-up', 'data-subject-id': subject.id
+%h3 Выбранные Вами дисциплины заочной формы обучения
+%table
+  %thead
+    %tr
+      %th Название дисциплины
+      %th Курс
+      %th Семестр
+      %th Направление подготовки
+      %th.teacher Преподаватель
+      - if policy(@user.extramular_subjects).change_ext_user_id?
+        %th Изменить
+      %th
+  %tbody
+    - @user.extramular_subjects.each do |extramular_subject|
+      %tr
+        %td= extramular_subject.subject_name
+        %td= extramular_subject.course
+        %td= extramular_subject.semester
+        %td= extramular_subject.training_direction
+        %td.user-initials-ext.teacher
+          = "#{extramular_subject.user.surname} #{extramular_subject.user.name.first}. #{extramular_subject.user.patronymic.first}." if extramular_subject.user != nil
+        - if policy(extramular_subject).change_ext_user_id?
+          %td.change-user-ext{"data-current-user-id": current_user.id}
+            %select.select-user-ext{:name => "user-id-ext"}
+              - @users = User.all
+              = @users.each do |user|
+                %option{"data-subject-id-ext" => extramular_subject.id, "data-user-id-ext" => user.id, :value => user.id}= "#{user.surname} #{user.name.first}. #{user.patronymic.first}."
+            = button_tag '', class: "user-select-change-ext-up"
+        %td= button_tag '', class: 'btn-remove-extramular-subject-up', 'data-extramular-subject-id': extramular_subject.id
+= button_to 'Сформировать excel', create_excel_path, class: 'button-primary button'
+- if @user.id == current_user.id
+  %h3 Сформированные файлы Excel
+  - current_user.files_excels.each do |file|
+    %a{:href => file.output_file}= file.output_file
+  = link_to 'Очистить историю',  destroy_all_output_files_path, class: 'custom-link'

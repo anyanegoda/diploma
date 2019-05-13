@@ -1,0 +1,30 @@
+%p#notice= notice
+%table
+  %thead
+    %tr
+      %th Имя
+      %th Ученое звание и ученая степень
+      %th Должность
+      %th Ставка
+      %th Email
+      %th
+      %th
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td.name-block-users-page
+          .avatar-users-page
+            - if user.avatar?
+              = image_tag(user.avatar.thumb.url, alt: 'Аватар', class: 'user-avatar-table')
+            - else
+              =image_tag("avatar.jpg", class: 'user-avatar-table')
+          .name-users-page
+            = "#{user.surname } #{user.name} #{user.patronymic}"
+        %td= user.academic_degree
+        %td= user.post
+        %td= user.rate
+        %td= user.email
+        %td= link_to '', user, class: "show-link"
+        - if policy(user).destroy?
+          %td= link_to ' ', admin_destroy_user_path(user), method: :delete, data: { confirm: 'Вы уверены?' }, class: 'delete-link'
+%br/
