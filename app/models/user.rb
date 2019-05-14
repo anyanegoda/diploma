@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :files_excels
   has_many :settings
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :trackable
+         :recoverable, :rememberable, :validatable, :trackable#, :confirmable
   mount_uploader :avatar, AvatarUploader
   serialize :educational_and_methodical_works, Hash
   serialize :organizational_and_methodical_works, Hash
