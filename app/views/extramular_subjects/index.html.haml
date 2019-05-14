@@ -1,0 +1,96 @@
+%p#notice= notice
+#error
+  %span.error-text
+  %span.error-close ✕
+%h3 Выбранные Вами дисциплины
+%table#choosed-disciplines-ext
+  %thead
+    %tr
+      %th Название дисциплины
+      %th Курс
+      %th Семестр
+      %th Направление подготовки
+      %th.teacher Преподаватель
+      - if policy(@extramular_subjects).change_ext_user_id?
+        %th Изменить
+      %th
+  %tbody
+    - @extramular_subjects.each do |extramular_subject|
+      - if extramular_subject.user_id == current_user.id
+        %tr
+          %td= extramular_subject.subject_name
+          %td= extramular_subject.course
+          %td= extramular_subject.semester
+          %td= extramular_subject.training_direction
+          %td.user-initials-ext.teacher
+            = "#{extramular_subject.user.surname} #{extramular_subject.user.name.first}. #{extramular_subject.user.patronymic.first}." if extramular_subject.user != nil
+          - if policy(extramular_subject).change_ext_user_id?
+            %td.change-user-ext{"data-current-user-id": current_user.id}
+              %select.select-user-ext{:name => "user-id-ext"}
+                - @users = User.all
+                = @users.each do |user|
+                  %option{"data-subject-id-ext" => extramular_subject.id, "data-user-id-ext" => user.id, :value => user.id}= "#{user.surname} #{user.name.first}. #{user.patronymic.first}."
+              = button_tag '', class: "user-select-change-ext"
+          %td= button_tag '', class: 'btn-remove-extramular-subject', 'data-extramular-subject-id': extramular_subject.id
+%h3 Свободные дисциплины
+%table#empty-disciplines-ext
+  %thead
+    %tr
+      %th Название дисциплины
+      %th Курс
+      %th Семестр
+      %th Направление подготовки
+      %th.teacher Преподаватель
+      - if policy(@extramular_subjects).change_ext_user_id?
+        %th Изменить
+      %th
+  %tbody
+    - @extramular_subjects.each do |extramular_subject|
+      - if extramular_subject.user_id == nil
+        %tr
+          %td= extramular_subject.subject_name
+          %td= extramular_subject.course
+          %td= extramular_subject.semester
+          %td= extramular_subject.training_direction
+          %td.user-initials-ext.teacher
+            = "#{extramular_subject.user.surname} #{extramular_subject.user.name.first}. #{extramular_subject.user.patronymic.first}." if extramular_subject.user != nil
+          - if policy(extramular_subject).change_ext_user_id?
+            %td.change-user-ext.teacher
+              %select.select-user-ext{:name => "user-id-ext"}
+                - @users = User.all
+                = @users.each do |user|
+                  %option{"data-subject-id-ext": extramular_subject.id, "data-user-id-ext": user.id, :value => user.id}= "#{user.surname} #{user.name.first}. #{user.patronymic.first}."
+              = button_tag "", class: "user-select-change-ext"
+          %td.add-extramular-subject
+            = button_tag "", class: "extramular-subject-select-add", "data-ext-sub-id": extramular_subject.id
+%h3 Занятые дисциплины
+%table#busy-disciplines-ext
+  %thead
+    %tr
+      %th Название дисциплины
+      %th Курс
+      %th Семестр
+      %th Направление подготовки
+      %th.teacher Преподаватель
+      - if policy(@extramular_subjects).change_ext_user_id?
+        %th Изменить
+      %th
+  %tbody
+    - @extramular_subjects.each do |extramular_subject|
+      - if extramular_subject.user_id != current_user.id && extramular_subject.user_id != nil
+        %tr
+          %td= extramular_subject.subject_name
+          %td= extramular_subject.course
+          %td= extramular_subject.semester
+          %td= extramular_subject.training_direction
+          %td.user-initials-ext.teacher
+            = "#{extramular_subject.user.surname} #{extramular_subject.user.name.first}. #{extramular_subject.user.patronymic.first}." if extramular_subject.user != nil
+          - if policy(extramular_subject).change_ext_user_id?
+            %td.change-user-ext
+              %select.select-user-ext{:name => "user-id-ext"}
+                - @users = User.all
+                = @users.each do |user|
+                  %option{"data-subject-id-ext" => extramular_subject.id, "data-user-id-ext" => user.id, :value => user.id}= "#{user.surname} #{user.name.first}. #{user.patronymic.first}."
+              = button_tag "", class: "user-select-change-ext"
+          - if policy(extramular_subject).change_ext_user_id?
+            %td= button_tag '', class: 'btn-remove-extramular-subject', 'data-extramular-subject-id': extramular_subject.id

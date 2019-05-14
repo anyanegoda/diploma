@@ -10,10 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_03_154323) do
+ActiveRecord::Schema.define(version: 2019_05_09_125437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "educational_and_methodical_works", force: :cascade do |t|
+    t.string "work_name"
+    t.float "time_rate"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "educational_works", force: :cascade do |t|
+    t.string "work_name"
+    t.float "time_rate"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "extramular_subjects", force: :cascade do |t|
     t.string "subject_name"
@@ -58,6 +74,22 @@ ActiveRecord::Schema.define(version: 2019_05_03_154323) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "organizational_and_methodical_works", force: :cascade do |t|
+    t.string "work_name"
+    t.float "time_rate"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "research_works", force: :cascade do |t|
+    t.string "work_name"
+    t.float "time_rate"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "settings", force: :cascade do |t|
     t.string "discipline_full"
     t.string "discipline_extramural"
@@ -97,6 +129,8 @@ ActiveRecord::Schema.define(version: 2019_05_03_154323) do
     t.string "test_hours_full"
     t.string "test_hours_extramural"
     t.string "years"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_settings_on_user_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -168,6 +202,7 @@ ActiveRecord::Schema.define(version: 2019_05_03_154323) do
 
   add_foreign_key "extramular_subjects", "users"
   add_foreign_key "files_excels", "users"
+  add_foreign_key "settings", "users"
   add_foreign_key "subjects", "users"
   add_foreign_key "works", "name_works"
 end

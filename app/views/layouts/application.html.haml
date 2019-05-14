@@ -1,0 +1,50 @@
+!!!
+%html
+  %head
+    %title Diploma
+    = csrf_meta_tags
+    = csp_meta_tag
+    %link{href: "https://fonts.googleapis.com/css?family=Roboto", rel: "stylesheet"}
+    %meta{content: 'width=device-width, initial-scale=1, user-scalable=no', name: 'viewport'}
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  %body
+    %header
+      - if user_signed_in?
+        .container{class: ("container-with-shift" unless @hide_menu)}
+          .header-grid
+            =image_tag 'burger.svg', class: 'burger'
+            .left-header-block
+              %h1=@title
+              %h4=@subtitle
+            .right-header-block
+              =image_tag current_user.avatar.thumb.url, class: 'user-avatar-thumb'
+              .header-user-info
+                =link_to current_user do
+                  %h4="#{current_user.surname} #{current_user.name}"
+                =link_to 'Выйти', destroy_user_session_path, method: :delete
+
+    %main
+      - unless @hide_menu
+        - if user_signed_in?
+          .menu
+            =image_tag 'cross-out.svg', class: 'close-menu'
+            =link_to subjects_path, class: 'menu-link' do
+              =image_tag 'bright.png', class: 'menu-img'
+              %div Предметы очной формы обучения
+            =link_to extramular_subjects_path, class: 'menu-link' do
+              =image_tag 'notebook.png', class: 'menu-img'
+              %div Предметы заочной формы обучения
+            =link_to works_path, class: 'menu-link' do
+              =image_tag 'language.png', class: 'menu-img'
+              %div Внеучебная работа преподавателя
+            =link_to users_path, class: 'menu-link' do
+              =image_tag 'employee.png', class: 'menu-img'
+              %div Пользователи
+            - if current_user.admin?
+              =link_to (Setting.first), class: 'menu-link' do
+                =image_tag 'gears.png', class: 'menu-img'
+                %div Настройки
+
+      .container{class: ("container-with-shift" unless @hide_menu)}
+        = yield
