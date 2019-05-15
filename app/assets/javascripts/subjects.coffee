@@ -1,4 +1,4 @@
-$(document).on 'turbolinks:load', ->
+$ ->
   $('body').on 'click', '.subject-select-add', ->
     subject_id = $(this).data('subject-id')
     this_btn = $(this)
