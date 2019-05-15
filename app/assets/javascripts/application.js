@@ -14,5 +14,5 @@
 
 //= require rails-ujs
 //= require activestorage
-
+//= require works
 // = require_tree
