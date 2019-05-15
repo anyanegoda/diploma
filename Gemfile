@@ -27,6 +27,9 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+gem 'sprockets-rails', :require => 'sprockets/railtie'
+gem 'bootstrap-sass'
+
 gem 'pry'
 gem "roo", "~> 2.7.0"
 gem 'roo-xls'
