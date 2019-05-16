@@ -45,6 +45,11 @@
               =link_to (Setting.first), class: 'menu-link' do
                 =image_tag 'gears.png', class: 'menu-img'
                 %div Настройки
-
-      .container{class: ("container-with-shift" unless @hide_menu)}
-        = yield
+      - if controller_name != 'sessions' && controller_name != 'registrations' && controller_name != 'passwords' && controller_name != 'confirmations' && controller_name != 'unlocks'
+        .container{class: ("container-with-shift" unless @hide_menu)}
+          = yield
+      - else
+        .container-fluid.registration-block
+          .registration-block-img
+          .registration-block-form
+            = yield

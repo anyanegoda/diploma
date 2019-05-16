@@ -193,10 +193,17 @@ a.custom-link {
   margin-right: 20px;
 }
 
+.registration-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
 .registration-block-img {
-  // background-image: url('donnu.jpg');
-  // height: 100vh;
-  // width: 50vw;
+  background-image: url('donnu.jpg');
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .fields {
@@ -204,14 +211,44 @@ a.custom-link {
   .field:first-of-type{
     margin-right: 30px;
   }
+  .field {
+    input {
+      width: 300px;
+    }
+  }
+  .field-avatar {
+    input {
+      border: 0;
+      background-color: transparent;
+    }
+  }
+
 }
 
-.registration-block-form {
+.field-email {
   input {
-    width: 570px;
+    width: 300px !important;
+  }
+}
+.registration-block-form {
+  margin-left: 30px;
+  input {
+    width: 500px;
   }
 }
 
-em {
-    display: block;
+.field-check {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  input {
+    height: 20px;
+  }
+}
+
+.send-pass {
+  input {
+    width: 550px !important;
+  }
 }

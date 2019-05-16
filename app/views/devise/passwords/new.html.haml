@@ -1,0 +1,9 @@
+%h2 Забыли Ваш пароль?
+= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+  = devise_error_messages!
+  .field.send-pass
+    = f.label :Email
+    = f.email_field :email, autofocus: true, autocomplete: "email"
+  .actions
+    = f.submit "Пришлите мне инструкции по восстановлению", class: 'button send-pass'
+= render "devise/shared/links"
