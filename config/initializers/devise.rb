@@ -25,7 +25,7 @@ Devise.setup do |config|
   #   domain: "gmail.com",
   #   port: 587,
   #   user_name: "negoda.anya@gmail.com",
-  #   password: "14i2g5i21a7w",
+  #   password: "5VYU9NcSvLvJZ8j",
   #   authentication: 'plain',
   #   enable_starttls_auto: true
   # }
@@ -214,7 +214,7 @@ Devise.setup do |config|
   # ==> Configuration for :recoverable
   #
   # Defines which key will be used when recovering the password for an account
-  config.reset_password_keys = [:username]
+  config.reset_password_keys = [:email]
 
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to

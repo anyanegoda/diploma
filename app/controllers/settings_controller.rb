@@ -136,7 +136,7 @@ class SettingsController < ApplicationController
       consultation_c_row += 1
       test_c_row += 1
       exam_c_row += 1
-      if value[:name] != nil && value[:name] != setting.discipline_full
+      if value[:name] != nil && value[:name] != setting.discipline_full && value[:name] != 'Аспирантура, докторантура' && value[:name] != 'Вступительные' && value[:name] != ' '
         @item = Subject.new
         @item.subject_name = value[:name]
         unless value[:course].class == String
@@ -321,6 +321,8 @@ class SettingsController < ApplicationController
         quantity_exam_w = @xls.sheet(setting.department).cell(exam_w_row, exam_w_col)
         if quantity_test != nil || quantity_exam_v != nil || quantity_exam_w != nil
           size = quantity_test + quantity_exam_v + quantity_exam_w #quantity semesters
+        else
+          size = 1
         end
 
         semesters_course_1 = [1, 2]

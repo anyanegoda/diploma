@@ -8,7 +8,7 @@ Rails.application.configure do
     port: 587,
     user_name: 'donnu.mailer@gmail.com',
     domain: 'donnu.herokuapp.com',
-    password: Rails.application.secrets.secret_key_email_password,
+    password: "5VYU9NcSvLvJZ8j",
     authentication: "plain",
     enable_starttls_auto: true
   }

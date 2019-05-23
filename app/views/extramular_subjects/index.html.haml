@@ -55,7 +55,7 @@
           %td.user-initials-ext.teacher
             = "#{extramular_subject.user.surname} #{extramular_subject.user.name.first}. #{extramular_subject.user.patronymic.first}." if extramular_subject.user != nil
           - if policy(extramular_subject).change_ext_user_id?
-            %td.change-user-ext.teacher
+            %td.change-user-ext
               %select.select-user-ext{:name => "user-id-ext"}
                 - @users = User.all
                 = @users.each do |user|
