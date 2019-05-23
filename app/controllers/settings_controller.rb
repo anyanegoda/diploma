@@ -1,5 +1,7 @@
 class SettingsController < ApplicationController
   require 'roo'
+  require "pry"
+  require 'rubygems'
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
@@ -176,6 +178,8 @@ class SettingsController < ApplicationController
   end
 
   def insert_to_bd_extramular
+    binding.pry
+
     @xls = Roo::Spreadsheet.open(current_user.files_excels.last.input_file, {:expand_merged_ranges => true})
 
     setting = Setting.last

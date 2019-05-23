@@ -1,4 +1,6 @@
 class ExtramularSubjectsController < ApplicationController
+  require "pry"
+  require 'rubygems'
   before_action :set_extramular_subject, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
@@ -30,7 +32,7 @@ class ExtramularSubjectsController < ApplicationController
     @temp.save
   end
 
-  
+
 
   def index
     @extramular_subjects = ExtramularSubject.all

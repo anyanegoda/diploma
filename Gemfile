@@ -31,6 +31,7 @@ gem 'sprockets-rails', :require => 'sprockets/railtie'
 gem 'bootstrap-sass'
 
 gem 'pry'
+gem 'pry-rails'
 gem "roo", "~> 2.7.0"
 gem 'roo-xls'
 
