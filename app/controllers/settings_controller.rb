@@ -178,8 +178,6 @@ class SettingsController < ApplicationController
   end
 
   def insert_to_bd_extramular
-    binding.pry
-
     @xls = Roo::Spreadsheet.open(current_user.files_excels.last.input_file, {:expand_merged_ranges => true})
 
     setting = Setting.last
@@ -214,6 +212,8 @@ class SettingsController < ApplicationController
     else
       puts 'Seems no data in sheet '
     end
+
+    binding.pry
 
     for col in plan_col..hours_b_col-1
       row_test = @xls.sheet(setting.department).column(col).find_index(setting.test_plan_extramural)
