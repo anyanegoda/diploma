@@ -11,7 +11,6 @@ Rails.application.configure do
     user_name: 'donnu.mailer@gmail.com',
     password: 5VYU9NcSvLvJZ8j,
     domain: 'gmail.com',
-    password: Rails.application.secrets.secret_key_email_password,
     authentication: "plain",
     enable_starttls_auto: true
   }
