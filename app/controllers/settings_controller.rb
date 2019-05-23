@@ -21,6 +21,7 @@ class SettingsController < ApplicationController
   end
 
   def insert_to_bd
+    puts 'Suuuka'
     # @xls = Roo::Spreadsheet.open('./main.xls', {:expand_merged_ranges => true})
     # current_user.files_excels.each do |file|
     #   @xls = Roo::Spreadsheet.open(file.input_file, {:expand_merged_ranges => true})
@@ -178,7 +179,7 @@ class SettingsController < ApplicationController
   end
 
   def insert_to_bd_extramular
-    puts 'Suuuka '
+    puts 'Suuuka'
     @xls = Roo::Spreadsheet.open(current_user.files_excels.last.input_file, {:expand_merged_ranges => true})
 
     setting = Setting.last
