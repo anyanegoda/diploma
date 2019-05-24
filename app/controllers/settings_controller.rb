@@ -27,9 +27,9 @@ class SettingsController < ApplicationController
     #   @xls = Roo::Spreadsheet.open(file.input_file, {:expand_merged_ranges => true})
     # end
     @xls = Roo::Spreadsheet.open(current_user.files_excels.last.input_file, {:expand_merged_ranges => true})
-    puts 'Suuuka'
+    puts "#{@xls}"
     setting = Setting.last
-
+    puts "#{setting}"
     last_row = @xls.sheet(setting.department).last_row
     last_column = @xls.sheet(setting.department).last_column
     if !last_row.nil?
@@ -60,6 +60,13 @@ class SettingsController < ApplicationController
     else
       puts 'Seems no data in sheet '
     end
+    puts "#{contingent_row}"
+    puts "#{contingent_b_col}"
+    puts "#{contingent_d_col}"
+    puts "#{plan_row}"
+    puts "#{plan_col}"
+    puts "#{hours_b_col}"
+
     for col in plan_col..hours_b_col-1
       row_lectures = @xls.sheet(setting.department).column(col).find_index(setting.lectures_full)
       row_practical_classes = @xls.sheet(setting.department).column(col).find_index(setting.practical_classes_full)
