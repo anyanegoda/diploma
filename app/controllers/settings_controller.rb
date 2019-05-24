@@ -27,9 +27,9 @@ class SettingsController < ApplicationController
     #   @xls = Roo::Spreadsheet.open(file.input_file, {:expand_merged_ranges => true})
     # end
     @xls = Roo::Spreadsheet.open(current_user.files_excels.last.input_file, {:expand_merged_ranges => true})
-    puts "#{@xls}"
+
     setting = Setting.last
-    puts "#{setting}"
+
     last_row = @xls.sheet(setting.department).last_row
     last_column = @xls.sheet(setting.department).last_column
     if !last_row.nil?
@@ -60,12 +60,6 @@ class SettingsController < ApplicationController
     else
       puts 'Seems no data in sheet '
     end
-    puts "#{contingent_row}"
-    puts "#{contingent_b_col}"
-    puts "#{contingent_d_col}"
-    puts "#{plan_row}"
-    puts "#{plan_col}"
-    puts "#{hours_b_col}"
 
     for col in plan_col..hours_b_col-1
       row_lectures = @xls.sheet(setting.department).column(col).find_index(setting.lectures_full)
@@ -188,9 +182,9 @@ class SettingsController < ApplicationController
   def insert_to_bd_extramular
     puts 'Suuuka'
     @xls = Roo::Spreadsheet.open(current_user.files_excels.last.input_file, {:expand_merged_ranges => true})
-
+    puts "#{@xls}"
     setting = Setting.last
-
+    puts "#{setting}"
     last_row = @xls.sheet(setting.department).last_row
     last_column = @xls.sheet(setting.department).last_column
     if !last_row.nil?
@@ -221,9 +215,12 @@ class SettingsController < ApplicationController
     else
       puts 'Seems no data in sheet '
     end
-
-    binding.pry
-
+    puts "#{contingent_row}"
+    puts "#{contingent_b_col}"
+    puts "#{contingent_d_col}"
+    puts "#{plan_row}"
+    puts "#{plan_col}"
+    puts "#{hours_b_col}"
     for col in plan_col..hours_b_col-1
       row_test = @xls.sheet(setting.department).column(col).find_index(setting.test_plan_extramural)
       row_exam_v = @xls.sheet(setting.department).column(col).find_index(setting.exam_v_extramural)
