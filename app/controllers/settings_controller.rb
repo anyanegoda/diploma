@@ -182,9 +182,9 @@ class SettingsController < ApplicationController
   def insert_to_bd_extramular
     puts 'Suuuka'
     @xls = Roo::Spreadsheet.open(current_user.files_excels.last.input_file, {:expand_merged_ranges => true})
-    puts "#{@xls}"
+
     setting = Setting.last
-    puts "#{setting}"
+
     last_row = @xls.sheet(setting.department).last_row
     last_column = @xls.sheet(setting.department).last_column
     if !last_row.nil?
@@ -215,12 +215,15 @@ class SettingsController < ApplicationController
     else
       puts 'Seems no data in sheet '
     end
-    puts "#{contingent_row}"
-    puts "#{contingent_b_col}"
-    puts "#{contingent_d_col}"
-    puts "#{plan_row}"
-    puts "#{plan_col}"
-    puts "#{hours_b_col}"
+
+    puts "contingent_с_col#{contingent_с_col}"
+    puts "plan_row#{plan_row}"
+    puts "plan_col#{plan_col}"
+    puts "hours_b_col#{hours_b_col}"
+    puts "hours_d_col#{hours_d_col}"
+    puts "hours_b_row#{hours_b_row}"
+    puts "hours_d_row#{hours_d_row}"
+
     for col in plan_col..hours_b_col-1
       row_test = @xls.sheet(setting.department).column(col).find_index(setting.test_plan_extramural)
       row_exam_v = @xls.sheet(setting.department).column(col).find_index(setting.exam_v_extramural)
@@ -238,6 +241,12 @@ class SettingsController < ApplicationController
         exam_w_col = col
       end
     end
+    puts "test_row#{test_row}"
+    puts "test_col#{test_col}"
+    puts "exam_v_row#{exam_v_row}"
+    puts "exam_v_col#{exam_v_col}"
+    puts "exam_w_row#{exam_w_row}"
+    puts "exam_w_col#{exam_w_col}"
 
     for col in hours_b_col..hours_d_col-1
       row_lectures_b = @xls.sheet(setting.department).column(col).find_index(setting.lectures_extramural)
@@ -272,6 +281,19 @@ class SettingsController < ApplicationController
         exam_b_col = col
       end
     end
+    puts "lectures_b_row#{lectures_b_row}"
+    puts "lectures_b_col#{lectures_b_col}"
+    puts "practical_classes_b_row#{practical_classes_b_row}"
+    puts "practical_classes_b_col#{practical_classes_b_col}"
+    puts "laboratory_classes_b_row#{laboratory_classes_b_row}"
+    puts "laboratory_classes_b_col#{laboratory_classes_b_col}"
+    puts "consultation_b_row#{consultation_b_row}"
+    puts "consultation_semester_b_col#{consultation_semester_b_col}"
+    puts "consultation_exam_b_col#{consultation_exam_b_col}"
+    puts "test_b_row#{test_b_row}"
+    puts "test_b_col#{test_b_col}"
+    puts "exam_b_row#{exam_b_row}"
+    puts "exam_b_col#{exam_b_col}"
 
     for col in hours_d_col..last_column
       row_lectures_c = @xls.sheet(setting.department).column(col).find_index(setting.lectures_extramural)
@@ -306,6 +328,19 @@ class SettingsController < ApplicationController
         exam_c_col = col
       end
     end
+    puts "lectures_c_row#{lectures_c_row}"
+    puts "lectures_c_col#{lectures_c_col}"
+    puts "practical_classes_c_row#{practical_classes_c_row}"
+    puts "practical_classes_c_col#{practical_classes_c_col}"
+    puts "laboratory_classes_c_row#{laboratory_classes_c_row}"
+    puts "laboratory_classes_c_col#{laboratory_classes_c_col}"
+    puts "consultation_c_row#{consultation_c_row}"
+    puts "consultation_semester_c_col#{consultation_semester_c_col}"
+    puts "consultation_exam_c_col#{consultation_exam_c_col}"
+    puts "test_c_row#{test_c_row}"
+    puts "test_c_col#{test_c_col}"
+    puts "exam_c_row#{exam_c_row}"
+    puts "exam_c_col#{exam_c_col}"
 
     @xls.sheet(setting.department).parse(name: setting.discipline_extramural, course: setting.course_extramural, training_direction: setting.training_direction_extramural, group_quantity: setting.subgroups_extramural, clean:true).each do |value|
       contingent_row += 1
