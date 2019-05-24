@@ -216,7 +216,7 @@ class SettingsController < ApplicationController
       puts 'Seems no data in sheet '
     end
 
-    puts "contingent_с_col#{contingent_с_col}"
+    puts "contingent_c_col#{contingent_c_col}"
     puts "plan_row#{plan_row}"
     puts "plan_col#{plan_col}"
     puts "hours_b_col#{hours_b_col}"
