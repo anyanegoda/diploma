@@ -38,7 +38,7 @@ gem 'roo-xls'
 gem 'devise'
 gem 'haml'
 gem 'writeexcel'
-gem 'carrierwave', '~> 1.0'
+gem 'carrierwave', '~> 1.3'
 gem 'mini_magick'
 gem "responders"
 gem "pundit"
